@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reloj Ingenieria</title>
+<style>
+  /* ===================================================================
+     CONFIGURACION RAPIDA  -  cambia solo estos valores
+     =================================================================== */
+  :root{
+    /* --- Colores (paleta Bayer) --- */
+    --azul-oscuro: #10384F;   /* texto principal: la hora y la fecha */
+    --verde:       #66B512;   /* acentos: segundos, dia de la semana */
+    --azul:        #0091DF;   /* acento secundario: linea divisoria */
+
+    /* --- Fondo del banner ---
+       Por defecto un degradado claro que imita el fondo del layout.
+       Para que el reloj "flote" sobre la imagen de fondo, pon:
+           --fondo: transparent;
+       y activa enable_transparency en la region de Yodeck.           */
+    --fondo: linear-gradient(100deg, #eaf4fc 0%, #ffffff 45%, #e8f3fb 100%);
+
+    /* --- Tamanos (en vh = % de la altura del banner) --- */
+    --tam-hora:     60vh;
+    --tam-segundos: 24vh;
+    --tam-dia:      15vh;
+    --tam-fecha:    21vh;
+  }
+
+  /* Formato 24h (true) o 12h con AM/PM (false) */
+  /* Zona horaria y idioma se configuran abajo, en el bloque <script> */
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html, body{
+    width:100%; height:100%;
+    overflow:hidden;
+    background: var(--fondo);
+    font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    color: var(--azul-oscuro);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .banner{
+    width:100%; height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 0 4vw;
+    gap: 3vw;
+  }
+
+  /* ---------- Bloque izquierdo: dia + fecha ---------- */
+  .fecha-bloque{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap: 2vh;
+    min-width:0;
+  }
+
+  .dia{
+    font-size: var(--tam-dia);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.42em;
+    color: var(--verde);
+    white-space: nowrap;
+  }
+
+  .fecha{
+    font-size: var(--tam-fecha);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--azul-oscuro);
+    white-space: nowrap;
+  }
+
+  /* ---------- Separador ---------- */
+  .separador{
+    flex: 0 0 auto;
+    width: 3px;
+    height: 58%;
+    border-radius: 3px;
+    background: linear-gradient(
+      to bottom,
+      rgba(102,181,18,0)   0%,
+      var(--verde)        18%,
+      var(--azul)         82%,
+      rgba(0,145,223,0)  100%
+    );
+    opacity: .75;
+  }
+
+  /* ---------- Bloque derecho: la hora ---------- */
+  .hora-bloque{
+    display:flex;
+    align-items: baseline;
+    gap: 1.2vh;
+    white-space: nowrap;
+  }
+
+  .hora{
+    font-size: var(--tam-hora);
+    font-weight: 700;
+    line-height: .92;
+    letter-spacing: -0.025em;
+    color: var(--azul-oscuro);
+    /* numeros de ancho fijo: evita que la hora "baile" al cambiar */
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  .segundos{
+    font-size: var(--tam-segundos);
+    font-weight: 600;
+    color: var(--verde);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+
+  .meridiano{
+    font-size: var(--tam-segundos);
+    font-weight: 600;
+    color: var(--azul);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .meridiano:empty{ display:none; }
+</style>
+</head>
+<body>
+
+  <div class="banner">
+    <div class="fecha-bloque">
+      <div class="dia"   id="dia">&nbsp;</div>
+      <div class="fecha" id="fecha">&nbsp;</div>
+    </div>
+
+    <div class="separador"></div>
+
+    <div class="hora-bloque">
+      <span class="hora"       id="hora">--:--</span>
+      <span class="segundos"   id="segundos"></span>
+      <span class="meridiano"  id="meridiano"></span>
+    </div>
+  </div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* =================================================================
+     CONFIGURACION  -  cambia solo estos valores
+     ================================================================= */
+  var CONFIG = {
+    zonaHoraria:     "Europe/Madrid",  // fuerza la hora correcta aunque
+                                       // el reproductor este mal configurado
+    idioma:          "es-ES",
+    formato24h:      true,             // false => 12h con AM/PM
+    mostrarSegundos: true
+  };
+  /* ================================================================= */
+
+  var elDia       = document.getElementById("dia");
+  var elFecha     = document.getElementById("fecha");
+  var elHora      = document.getElementById("hora");
+  var elSegundos  = document.getElementById("segundos");
+  var elMeridiano = document.getElementById("meridiano");
+
+  // Intl puede fallar si el reproductor no trae datos de zona horaria.
+  // Si pasa, caemos a la hora local del dispositivo en vez de romper.
+  var usarZona = true;
+  try {
+    new Intl.DateTimeFormat(CONFIG.idioma, { timeZone: CONFIG.zonaHoraria }).format(new Date());
+  } catch (e) {
+    usarZona = false;
+  }
+
+  function opciones(extra) {
+    var o = {};
+    for (var k in extra) { if (extra.hasOwnProperty(k)) o[k] = extra[k]; }
+    if (usarZona) o.timeZone = CONFIG.zonaHoraria;
+    return o;
+  }
+
+  function formatear(fecha, extra) {
+    try {
+      return new Intl.DateTimeFormat(CONFIG.idioma, opciones(extra)).format(fecha);
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function capitalizar(t) {
+    return t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
+  }
+
+  // Partes de la hora, para poder pintar segundos y AM/PM por separado
+  function partesHora(fecha) {
+    var o = opciones({
+      hour:   "2-digit",
+      minute: "2-digit",
+      hour12: !CONFIG.formato24h
+    });
+    if (CONFIG.mostrarSegundos) o.second = "2-digit";
+
+    var res = { hm: "", s: "", ampm: "" };
+    try {
+      var partes = new Intl.DateTimeFormat(CONFIG.idioma, o).formatToParts(fecha);
+      var h = "", m = "";
+      for (var i = 0; i < partes.length; i++) {
+        var p = partes[i];
+        if (p.type === "hour")        h = p.value;
+        else if (p.type === "minute") m = p.value;
+        else if (p.type === "second") res.s = p.value;
+        else if (p.type === "dayPeriod") res.ampm = p.value;
+      }
+      // en 24h forzamos 2 digitos: "9:05" -> "09:05"
+      if (CONFIG.formato24h && h.length === 1) h = "0" + h;
+      res.hm = h + ":" + m;
+    } catch (e) {
+      var hh = fecha.getHours(), mm = fecha.getMinutes();
+      res.hm = (hh < 10 ? "0" : "") + hh + ":" + (mm < 10 ? "0" : "") + mm;
+    }
+    return res;
+  }
+
+  var ultimoDia = "";
+
+  function pintar() {
+    var ahora = new Date();
+
+    var p = partesHora(ahora);
+    elHora.textContent      = p.hm;
+    elSegundos.textContent  = CONFIG.mostrarSegundos && p.s ? p.s : "";
+    elMeridiano.textContent = p.ampm || "";
+
+    // La fecha solo se recalcula cuando cambia el dia
+    var clave = formatear(ahora, { year: "numeric", month: "2-digit", day: "2-digit" });
+    if (clave !== ultimoDia) {
+      ultimoDia = clave;
+      elDia.textContent = formatear(ahora, { weekday: "long" }).toUpperCase();
+      elFecha.textContent = capitalizar(
+        formatear(ahora, { day: "numeric", month: "long", year: "numeric" })
+      );
+    }
+  }
+
+  pintar();
+  setInterval(pintar, 250);   // 250ms: el segundero cambia sin retraso visible
+})();
+</script>
+</body>
+</html>
