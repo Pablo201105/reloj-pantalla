@@ -1,0 +1,14 @@
+{
+  "bayer": {
+    "precio": 53.92,
+    "moneda": "EUR",
+    "variacion": 2.08,
+    "variacionPct": 4.01,
+    "apertura": 52.2,
+    "momento": "2026-11-04T14:36:41Z",
+    "estado": "Continuous Trading",
+    "fuente": "Xetra"
+  },
+  "actualizado": "2026-11-04T14:51:41.584Z",
+  "obsoleto": false
+}
