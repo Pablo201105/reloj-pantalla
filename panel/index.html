@@ -136,15 +136,6 @@ body::after{
 .dia-fila .max{font-weight:700;}
 .dia-fila .min{color:var(--suave);}
 
-/* Sol */
-#sol{
-  flex:0 0 auto;display:flex;justify-content:space-around;
-  font-size:15px;font-variant-numeric:tabular-nums;
-}
-#sol div{display:flex;align-items:center;gap:7px;}
-#sol b{font-weight:700;}
-#sol .et{color:var(--suave);font-size:13px;letter-spacing:.1em;text-transform:uppercase;}
-
 /* Mapa de ciberamenazas */
 #ciber{flex:1 1 auto;min-height:0;padding-bottom:12px;}
 #ciber .marco{
@@ -204,18 +195,15 @@ body::after{
         <span>Humedad <b id="hum">--%</b></span>
         <span>Viento <b id="viento">--</b></span>
       </div>
+      <div class="detalle">
+        <span>Amanece <b id="amanece">--:--</b></span>
+        <span>Anochece <b id="anochece">--:--</b></span>
+      </div>
     </div>
 
     <div class="panel tarjeta" id="prevision">
       <div class="titulo">Próximos días</div>
       <div id="dias"></div>
-    </div>
-
-    <div class="panel tarjeta" id="sol-panel">
-      <div id="sol">
-        <div><span class="et">Amanece</span> <b id="amanece">--:--</b></div>
-        <div><span class="et">Anochece</span> <b id="anochece">--:--</b></div>
-      </div>
     </div>
 
     <div class="panel tarjeta" id="ciber">
@@ -241,7 +229,10 @@ var CONFIG = {
   lat:40.4818, lon:-3.3643,            // Alcala de Henares
   urlDatos:"../datos.json",            // lo genera GitHub Actions
   minutosTiempo:15,
-  minutosBolsa:5
+  minutosBolsa:5,
+  // Zoom del mapa de ciberamenazas. 1 = el mapa entero encaja en el hueco.
+  // Por encima de 1 se amplia y se recorta por los lados.
+  zoomCiber:1.75
 };
 
 /* ==================================================================
@@ -443,9 +434,11 @@ function montarCiber(){
   f.setAttribute("frameborder","0");
   marco.appendChild(f);
   var ajustar=function(){
-    var k=Math.max(marco.clientWidth/960, marco.clientHeight/720);
+    // "cover": la escala minima que cubre el hueco, multiplicada por el zoom
+    var k=Math.max(marco.clientWidth/960, marco.clientHeight/720)*CONFIG.zoomCiber;
     f.style.transform="scale("+k+")";
-    f.style.left=((marco.clientWidth-960*k)/2)+"px";
+    // Se centra el recorte para no perder el centro del mapa
+    f.style.left=((marco.clientWidth -960*k)/2)+"px";
     f.style.top =((marco.clientHeight-720*k)/2)+"px";
   };
   ajustar();
