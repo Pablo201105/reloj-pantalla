@@ -139,19 +139,66 @@ body::after{
 .dia-fila .max{font-weight:700;}
 .dia-fila .min{color:var(--suave);font-weight:600;}
 
-/* Mapa de ciberamenazas */
+/* Ciberamenazas (datos del SANS Internet Storm Center) */
 #ciber{flex:1 1 auto;min-height:0;padding-bottom:12px;}
-#ciber .marco{
-  flex:1 1 auto;min-height:0;border-radius:11px;overflow:hidden;
-  background:#0b1b26;position:relative;
+#ciber .et{
+  font-size:12px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--suave);
 }
-/* El widget se renderiza a tamanyo grande y se reduce con escala,
-   asi el mapa conserva sus proporciones en vez de deformarse. */
-#ciber iframe{
-  position:absolute;top:0;left:0;width:960px;height:720px;border:0;
-  transform-origin:top left;
+
+/* Nivel INFOCON */
+.infocon{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 11px;border-radius:10px;
+  background:rgba(16,56,79,.05);margin-bottom:11px;
 }
-#ciber .pie{font-size:11px;color:var(--suave);margin-top:7px;text-align:right;opacity:.75;}
+.infocon .luz{
+  width:13px;height:13px;border-radius:50%;flex:0 0 auto;
+  background:var(--suave);box-shadow:0 0 0 3px rgba(16,56,79,.07);
+}
+.infocon .valor{
+  margin-left:auto;font-size:19px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.nivel-verde   .luz{background:#49A010;box-shadow:0 0 0 3px rgba(73,160,16,.20);}
+.nivel-verde   .valor{color:#3C8C06;}
+.nivel-amarillo .luz{background:#E8B10A;box-shadow:0 0 0 3px rgba(232,177,10,.22);}
+.nivel-amarillo .valor{color:#A8790A;}
+.nivel-naranja .luz{background:#E8700A;box-shadow:0 0 0 3px rgba(232,112,10,.22);}
+.nivel-naranja .valor{color:#C25A05;}
+.nivel-rojo    .luz{background:#D0021B;box-shadow:0 0 0 3px rgba(208,2,27,.22);}
+.nivel-rojo    .valor{color:var(--rojo);}
+
+/* Cifra principal */
+.ciber-cifra{margin-bottom:12px;}
+.ciber-cifra .num{
+  font-size:40px;font-weight:700;line-height:1.05;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;margin-top:1px;
+}
+.ciber-cifra .sub{font-size:13px;color:var(--suave);margin-top:2px;}
+.ciber-cifra .sub b{color:var(--texto);font-weight:700;font-variant-numeric:tabular-nums;}
+
+/* Puertos mas atacados */
+.puertos-et{display:block;margin-bottom:5px;}
+.puerto-fila{
+  display:flex;align-items:baseline;gap:9px;padding:4px 0;
+  border-bottom:1px solid var(--borde);
+}
+.puerto-fila:last-child{border-bottom:none;}
+.puerto-fila .num-p{
+  font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;
+  min-width:46px;
+}
+.puerto-fila .nom-p{font-size:15px;color:var(--suave);font-weight:600;}
+.puerto-fila .cnt{
+  margin-left:auto;font-size:17px;font-weight:700;
+  font-variant-numeric:tabular-nums;
+}
+
+#ciber .pie{
+  font-size:11px;color:var(--suave);margin-top:auto;padding-top:8px;
+  text-align:right;opacity:.75;
+}
 
 .apagado{opacity:.4;}
 </style>
@@ -210,9 +257,24 @@ body::after{
     </div>
 
     <div class="panel tarjeta" id="ciber">
-      <div class="titulo">Ciberamenazas en vivo</div>
-      <div class="marco" id="marco-ciber"></div>
-      <div class="pie">Fuente: Kaspersky Cybermap</div>
+      <div class="titulo">Ciberamenazas</div>
+
+      <div class="infocon" id="infocon">
+        <span class="luz"></span>
+        <span class="et">Nivel INFOCON</span>
+        <span class="valor" id="infocon-txt">—</span>
+      </div>
+
+      <div class="ciber-cifra">
+        <span class="et">Ataques detectados</span>
+        <div class="num" id="ciber-ataques">—</div>
+        <div class="sub"><b id="ciber-origenes">—</b> orígenes · <span id="ciber-fecha">—</span></div>
+      </div>
+
+      <span class="et puertos-et">Puertos más atacados</span>
+      <div id="ciber-puertos"></div>
+
+      <div class="pie">Fuente: SANS Internet Storm Center</div>
     </div>
 
   </div>
@@ -232,10 +294,7 @@ var CONFIG = {
   lat:40.4818, lon:-3.3643,            // Alcala de Henares
   urlDatos:"../datos.json",            // lo genera GitHub Actions
   minutosTiempo:15,
-  minutosBolsa:5,
-  // Zoom del mapa de ciberamenazas. 1 = el mapa entero encaja en el hueco.
-  // Por encima de 1 se amplia y se recorta por los lados.
-  zoomCiber:1.75
+  minutosBolsa:5
 };
 
 /* ==================================================================
@@ -407,6 +466,8 @@ function cargarBolsa(){
     if(!r.ok) throw new Error("HTTP "+r.status);
     return r.json();
   }).then(function(j){
+    // Primero las ciberamenazas: si falta la cotizacion no deben caer las dos
+    try{ pintarCiber(j); }catch(e){}
     var b=j&&j.bayer; if(!b) throw new Error("sin datos");
     document.getElementById("precio").textContent=
       b.precio.toFixed(2).replace(".",",")+" €";
@@ -418,42 +479,60 @@ function cargarBolsa(){
       v.textContent=s+pct.toFixed(2).replace(".",",")+" %";
       v.className="var "+(pct>0.01?"sube":pct<-0.01?"baja":"plano");
     }
-    document.getElementById("bolsa").classList.toggle("apagado",!!j.obsoleto);
+    document.getElementById("bolsa").classList.toggle("apagado",!!j.bayerObsoleto);
   }).catch(function(e){
     document.getElementById("bolsa").classList.add("apagado");
   });
 }
 
 /* ==================================================================
-   MAPA DE CIBERAMENAZAS
-   Se inserta a 960x720 y se reduce por escala, para que el mapa
-   mantenga sus proporciones dentro de una columna estrecha.
+   DATOS DE CIBERAMENAZAS  ·  del mismo datos.json
    ================================================================== */
-function montarCiber(){
-  var marco=document.getElementById("marco-ciber");
-  var f=document.createElement("iframe");
-  f.src="https://cybermap.kaspersky.com/en/widget/dynamic/light";
-  f.setAttribute("scrolling","no");
-  f.setAttribute("frameborder","0");
-  marco.appendChild(f);
-  var ajustar=function(){
-    // "cover": la escala minima que cubre el hueco, multiplicada por el zoom
-    var k=Math.max(marco.clientWidth/960, marco.clientHeight/720)*CONFIG.zoomCiber;
-    f.style.transform="scale("+k+")";
-    // Se centra el recorte para no perder el centro del mapa
-    f.style.left=((marco.clientWidth -960*k)/2)+"px";
-    f.style.top =((marco.clientHeight-720*k)/2)+"px";
-  };
-  ajustar();
-  window.addEventListener("resize",ajustar);
-  setTimeout(ajustar,1200);
+// Separador de miles manual: no depende de Intl, que en el reproductor
+// puede venir recortado.
+function miles(n){
+  return String(Math.round(n||0)).replace(/\B(?=(\d{3})+(?!\d))/g,".");
+}
+var NIVELES={green:["nivel-verde","Verde"],yellow:["nivel-amarillo","Amarillo"],
+             orange:["nivel-naranja","Naranja"],red:["nivel-rojo","Rojo"]};
+
+function pintarCiber(j){
+  var c=j&&j.ciber;
+  var caja=document.getElementById("ciber");
+  if(!c){ caja.classList.add("apagado"); return; }
+  caja.classList.toggle("apagado",!!j.ciberObsoleto);
+
+  // Nivel INFOCON
+  var box=document.getElementById("infocon");
+  var n=NIVELES[(c.infocon||"").toLowerCase()];
+  box.className="infocon"+(n?" "+n[0]:"");
+  document.getElementById("infocon-txt").textContent=n?n[1]:"—";
+
+  // Cifra principal
+  if(c.hoy){
+    document.getElementById("ciber-ataques").textContent=miles(c.hoy.ataques);
+    document.getElementById("ciber-origenes").textContent=miles(c.hoy.origenes);
+    var p=(c.hoy.fecha||"").split("-");
+    document.getElementById("ciber-fecha").textContent=
+      p.length===3 ? (Number(p[2])+" "+MESES[Number(p[1])-1].slice(0,3)) : "—";
+  }
+
+  // Puertos mas atacados
+  var html="";
+  (c.puertos||[]).forEach(function(x){
+    html+='<div class="puerto-fila">'+
+      '<span class="num-p">'+x.puerto+'</span>'+
+      '<span class="nom-p">'+x.nombre+'</span>'+
+      '<span class="cnt">'+miles(x.registros)+'</span>'+
+    '</div>';
+  });
+  document.getElementById("ciber-puertos").innerHTML=html;
 }
 
 /* ================================================================== */
 pintarReloj();  setInterval(pintarReloj,250);
 cargarTiempo(); setInterval(cargarTiempo,CONFIG.minutosTiempo*60000);
 cargarBolsa();  setInterval(cargarBolsa, CONFIG.minutosBolsa *60000);
-montarCiber();
 })();
 </script>
 </body>

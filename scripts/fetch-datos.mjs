@@ -87,26 +87,97 @@ for (const [nombre, fn] of FUENTES) {
   }
 }
 
-const SALIDA = "datos.json";
+/* ==================================================================
+   CIBERAMENAZAS  ·  SANS Internet Storm Center (isc.sans.edu)
+   Fuente publica y citable. No manda cabecera CORS, por eso tampoco
+   se puede leer desde el navegador y se descarga aqui.
+   ================================================================== */
+const PUERTOS = {
+  20:"FTP",21:"FTP",22:"SSH",23:"Telnet",25:"SMTP",53:"DNS",80:"HTTP",110:"POP3",
+  123:"NTP",135:"RPC",139:"NetBIOS",143:"IMAP",161:"SNMP",443:"HTTPS",445:"SMB",
+  993:"IMAPS",995:"POP3S",1433:"MSSQL",1900:"SSDP",2222:"SSH alt",3306:"MySQL",
+  3389:"RDP",5060:"SIP",5432:"PostgreSQL",5900:"VNC",6379:"Redis",8080:"HTTP alt",
+  8443:"HTTPS alt",27017:"MongoDB",
+};
 
-if (!bayer) {
-  console.log("Ninguna fuente respondio.");
-  // Conserva el dato anterior marcado como obsoleto en vez de publicar un
-  // JSON vacio, que dejaria ese hueco del panel en blanco.
-  if (existsSync(SALIDA)) {
-    const prev = JSON.parse(readFileSync(SALIDA, "utf8"));
-    prev.obsoleto = true;
-    writeFileSync(SALIDA, JSON.stringify(prev, null, 2) + "\n");
-    console.log("Mantenido el dato anterior, marcado como obsoleto.");
-    process.exit(0);
+async function cargarCiber() {
+  const [infocon, puertos, resumen] = await Promise.all([
+    pedirJson("https://isc.sans.edu/api/infocon?json").catch(() => null),
+    pedirJson("https://isc.sans.edu/api/topports/records/4?json").catch(() => null),
+    pedirJson(`https://isc.sans.edu/api/dailysummary/${
+      new Date(Date.now() - 864e5).toISOString().slice(0, 10)}?json`).catch(() => null),
+  ]);
+
+  if (!infocon && !puertos && !resumen) throw new Error("ISC no responde");
+
+  // topports llega como objeto con claves "0","1","2"... mas metadatos
+  const lista = [];
+  if (puertos) {
+    for (const k of Object.keys(puertos)) {
+      const p = puertos[k];
+      if (p && typeof p === "object" && p.targetport !== undefined) {
+        lista.push({
+          puerto: Number(p.targetport),
+          nombre: PUERTOS[Number(p.targetport)] || "—",
+          registros: Number(p.records) || 0,
+          origenes: Number(p.sources) || 0,
+        });
+      }
+    }
+    lista.sort((a, b) => b.registros - a.registros);
   }
+
+  // dailysummary devuelve un array; se coge el dia mas reciente
+  let hoy = null;
+  if (Array.isArray(resumen) && resumen.length) {
+    const u = resumen[resumen.length - 1];
+    hoy = {
+      fecha: u.date,
+      ataques: Number(u.records) || 0,
+      origenes: Number(u.sources) || 0,
+      objetivos: Number(u.targets) || 0,
+    };
+  }
+
+  return {
+    infocon: infocon?.status || null,
+    hoy,
+    puertos: lista.slice(0, 4),
+    fuente: "SANS Internet Storm Center",
+  };
+}
+
+let ciber = null;
+try {
+  ciber = await cargarCiber();
+  console.log(`OK ciber: infocon=${ciber.infocon} · ` +
+              `hoy=${ciber.hoy?.ataques ?? "?"} ataques · ${ciber.puertos.length} puertos`);
+} catch (e) {
+  console.log(`FALLO ciber: ${e.message}`);
+}
+
+/* ==================================================================
+   ESCRITURA  ·  si una parte falla se conserva la anterior, para que
+   el panel nunca se quede con un hueco en blanco.
+   ================================================================== */
+const SALIDA = "datos.json";
+const previo = existsSync(SALIDA) ? JSON.parse(readFileSync(SALIDA, "utf8")) : {};
+
+if (!bayer && !ciber && !previo.bayer && !previo.ciber) {
+  console.log("Ninguna fuente respondio y no hay datos previos.");
   process.exit(1);
 }
 
-writeFileSync(SALIDA, JSON.stringify({
-  bayer,
+const salida = {
+  bayer: bayer || previo.bayer || null,
+  bayerObsoleto: !bayer && !!previo.bayer,
+  ciber: ciber || previo.ciber || null,
+  ciberObsoleto: !ciber && !!previo.ciber,
   actualizado: new Date().toISOString(),
-  obsoleto: false,
-}, null, 2) + "\n");
+};
 
+if (salida.bayerObsoleto) console.log("Cotizacion: conservada la anterior (obsoleta).");
+if (salida.ciberObsoleto) console.log("Ciber: conservados los datos anteriores (obsoletos).");
+
+writeFileSync(SALIDA, JSON.stringify(salida, null, 2) + "\n");
 console.log("Escrito " + SALIDA);
