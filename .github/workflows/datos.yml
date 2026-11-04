@@ -1,0 +1,43 @@
+name: Actualizar datos
+
+on:
+  schedule:
+    # Cada 20 minutos. GitHub puede retrasarlo si hay cola; es normal.
+    - cron: "*/20 * * * *"
+  workflow_dispatch:        # permite lanzarlo a mano
+  push:
+    paths:
+      - "scripts/fetch-datos.mjs"
+      - ".github/workflows/datos.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: datos
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Descargar cotizacion
+        run: node scripts/fetch-datos.mjs
+
+      - name: Publicar si ha cambiado
+        run: |
+          if git diff --quiet -- datos.json; then
+            echo "Sin cambios en datos.json"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add datos.json
+          git commit -m "Datos: cotizacion BAYN.DE $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push
