@@ -1,12 +1,12 @@
 {
   "bayer": {
-    "precio": 53.82,
+    "precio": 54.12,
     "moneda": "EUR",
-    "variacion": 1.98,
-    "variacionPct": 3.82,
+    "variacion": 2.4,
+    "variacionPct": 4.63,
     "apertura": 52.2,
-    "momento": "2026-11-04T14:56:07Z",
-    "estado": "Continuous Trading",
+    "momento": "2026-11-04T20:43:27Z",
+    "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
   "bayerObsoleto": false,
@@ -14,38 +14,38 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-04",
-      "ataques": 6936768,
-      "origenes": 104487,
-      "objetivos": 496
+      "ataques": 10140861,
+      "origenes": 138407,
+      "objetivos": 508
     },
     "puertos": [
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 418164,
-        "origenes": 9079
+        "registros": 881594,
+        "origenes": 18213
       },
       {
         "puerto": 23,
         "nombre": "Telnet",
-        "registros": 227599,
-        "origenes": 9957
+        "registros": 496029,
+        "origenes": 17039
       },
       {
         "puerto": 443,
         "nombre": "HTTPS",
-        "registros": 199261,
-        "origenes": 8381
+        "registros": 455071,
+        "origenes": 15608
       },
       {
         "puerto": 161,
         "nombre": "SNMP",
-        "registros": 155320,
-        "origenes": 726
+        "registros": 378681,
+        "origenes": 1549
       }
     ],
     "fuente": "SANS Internet Storm Center"
   },
   "ciberObsoleto": false,
-  "actualizado": "2026-11-04T15:11:10.094Z"
+  "actualizado": "2026-11-04T21:05:48.998Z"
 }
