@@ -125,14 +125,17 @@ body::after{
 
 /* Prevision */
 #prevision{flex:0 0 auto;}
+/* El alto de la fila lo fija el icono (46px). Mientras la linea de texto
+   no pase de ahi, se puede agrandar la letra sin que crezca el cuadro. */
 .dia-fila{
-  display:flex;align-items:center;gap:13px;padding:10px 0;
+  display:flex;align-items:center;gap:11px;padding:10px 0;
   border-bottom:1px solid var(--borde);
+  line-height:1.15;
 }
 .dia-fila:last-child{border-bottom:none;}
-.dia-fila .nombre{width:62px;font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+.dia-fila .nombre{width:72px;font-size:32px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;}
 .dia-fila .ic{width:46px;height:46px;flex:0 0 auto;}
-.dia-fila .rango{margin-left:auto;font-size:28px;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.dia-fila .rango{margin-left:auto;font-size:36px;font-variant-numeric:tabular-nums;white-space:nowrap;}
 .dia-fila .max{font-weight:700;}
 .dia-fila .min{color:var(--suave);font-weight:600;}
 
