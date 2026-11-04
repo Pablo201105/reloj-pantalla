@@ -169,13 +169,48 @@
   var elSegundos  = document.getElementById("segundos");
   var elMeridiano = document.getElementById("meridiano");
 
-  // Intl puede fallar si el reproductor no trae datos de zona horaria.
-  // Si pasa, caemos a la hora local del dispositivo en vez de romper.
+  /* ---------------------------------------------------------------
+     Deteccion de soporte de zona horaria.
+
+     OJO: el reproductor (Raspberry Pi) esta configurado en UTC. Por eso
+     NO se puede caer a la hora local del dispositivo si Intl falla:
+     mostraria UTC en silencio, que es justo el error que evitamos.
+     El plan B calcula la hora de Madrid a mano.
+     --------------------------------------------------------------- */
   var usarZona = true;
   try {
-    new Intl.DateTimeFormat(CONFIG.idioma, { timeZone: CONFIG.zonaHoraria }).format(new Date());
+    var prueba = new Intl.DateTimeFormat("en-GB", {
+      timeZone: CONFIG.zonaHoraria, hour: "2-digit", hour12: false
+    }).format(new Date(Date.UTC(2026, 6, 15, 12, 0, 0)));
+    // En julio Madrid es UTC+2 -> las 12:00 UTC deben dar las 14
+    if (parseInt(prueba, 10) !== 14) usarZona = false;
   } catch (e) {
     usarZona = false;
+  }
+
+  /* --- Plan B: horario de verano europeo calculado a mano ---------
+     Regla UE: CEST (UTC+2) desde el ultimo domingo de marzo a las
+     01:00 UTC hasta el ultimo domingo de octubre a las 01:00 UTC.
+     El resto del anyo, CET (UTC+1).                                */
+  var DIAS_ES  = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+  var MESES_ES = ["enero","febrero","marzo","abril","mayo","junio",
+                  "julio","agosto","septiembre","octubre","noviembre","diciembre"];
+
+  function ultimoDomingoUTC(anyo, mes) {
+    // Ultimo dia del mes, retrocediendo hasta caer en domingo
+    var d = new Date(Date.UTC(anyo, mes + 1, 0, 1, 0, 0));
+    d.setUTCDate(d.getUTCDate() - d.getUTCDay());
+    return d;
+  }
+
+  function esVerano(fecha) {
+    var a = fecha.getUTCFullYear();
+    return fecha >= ultimoDomingoUTC(a, 2) && fecha < ultimoDomingoUTC(a, 9);
+  }
+
+  // Devuelve un Date "desplazado" cuyos getters UTC dan la hora de Madrid
+  function aMadrid(fecha) {
+    return new Date(fecha.getTime() + (esVerano(fecha) ? 2 : 1) * 3600000);
   }
 
   function opciones(extra) {
@@ -197,8 +232,23 @@
     return t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
   }
 
+  // Plan B: construye la hora sin depender de Intl
+  function partesHoraManual(fecha) {
+    var m = aMadrid(fecha);
+    var h = m.getUTCHours(), res = { hm: "", s: "", ampm: "" };
+    if (!CONFIG.formato24h) {
+      res.ampm = h < 12 ? "a. m." : "p. m.";
+      h = h % 12; if (h === 0) h = 12;
+    }
+    var mi = m.getUTCMinutes(), se = m.getUTCSeconds();
+    res.hm = (h < 10 ? "0" : "") + h + ":" + (mi < 10 ? "0" : "") + mi;
+    if (CONFIG.mostrarSegundos) res.s = (se < 10 ? "0" : "") + se;
+    return res;
+  }
+
   // Partes de la hora, para poder pintar segundos y AM/PM por separado
   function partesHora(fecha) {
+    if (!usarZona) return partesHoraManual(fecha);
     var o = opciones({
       hour:   "2-digit",
       minute: "2-digit",
@@ -221,8 +271,7 @@
       if (CONFIG.formato24h && h.length === 1) h = "0" + h;
       res.hm = h + ":" + m;
     } catch (e) {
-      var hh = fecha.getHours(), mm = fecha.getMinutes();
-      res.hm = (hh < 10 ? "0" : "") + hh + ":" + (mm < 10 ? "0" : "") + mm;
+      return partesHoraManual(fecha);
     }
     return res;
   }
@@ -238,13 +287,23 @@
     elMeridiano.textContent = p.ampm || "";
 
     // La fecha solo se recalcula cuando cambia el dia
-    var clave = formatear(ahora, { year: "numeric", month: "2-digit", day: "2-digit" });
+    var m = aMadrid(ahora);
+    var clave = usarZona
+      ? formatear(ahora, { year: "numeric", month: "2-digit", day: "2-digit" })
+      : m.getUTCFullYear() + "-" + m.getUTCMonth() + "-" + m.getUTCDate();
+
     if (clave !== ultimoDia) {
       ultimoDia = clave;
-      elDia.textContent = formatear(ahora, { weekday: "long" }).toUpperCase();
-      elFecha.textContent = capitalizar(
-        formatear(ahora, { day: "numeric", month: "long", year: "numeric" })
-      );
+      if (usarZona) {
+        elDia.textContent = formatear(ahora, { weekday: "long" }).toUpperCase();
+        elFecha.textContent = capitalizar(
+          formatear(ahora, { day: "numeric", month: "long", year: "numeric" })
+        );
+      } else {
+        elDia.textContent = DIAS_ES[m.getUTCDay()].toUpperCase();
+        elFecha.textContent = m.getUTCDate() + " de " +
+          MESES_ES[m.getUTCMonth()] + " de " + m.getUTCFullYear();
+      }
     }
   }
 
