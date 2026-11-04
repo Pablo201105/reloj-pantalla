@@ -32,12 +32,15 @@ jobs:
 
       - name: Publicar si ha cambiado
         run: |
-          if git diff --quiet -- datos.json; then
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Hay que preparar el archivo ANTES de comparar: si datos.json aun no
+          # esta bajo control de versiones, "git diff" no detecta nada y el dato
+          # se perderia en cada ejecucion.
+          git add -A datos.json
+          if git diff --cached --quiet -- datos.json; then
             echo "Sin cambios en datos.json"
             exit 0
           fi
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add datos.json
           git commit -m "Datos: cotizacion BAYN.DE $(date -u +%Y-%m-%dT%H:%MZ)"
           git push

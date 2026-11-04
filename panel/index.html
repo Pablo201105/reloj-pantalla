@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, initial-scale=1">
+<title>Panel Ingenieria</title>
+<style>
+/* ===================================================================
+   PANEL INGENIERIA  ·  1920 x 1080
+   El hueco de la playlist lo cubre una region de Yodeck por encima:
+   x=40  y=196  1466x824  (16:9)
+   =================================================================== */
+:root{
+  --azul-oscuro:#10384F;
+  --azul:#0091DF;
+  --verde:#66B512;
+  --rojo:#D0021B;
+  --texto:#10384F;
+  --suave:#5B7B8C;
+  --tarjeta:rgba(255,255,255,.78);
+  --borde:rgba(16,56,79,.10);
+  --sombra:0 2px 14px rgba(16,56,79,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+  width:1920px;height:1080px;overflow:hidden;
+  font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  color:var(--texto);
+  -webkit-font-smoothing:antialiased;
+}
+/* ---------- Fondo corporativo claro ---------- */
+body{
+  background:
+    radial-gradient(1200px 700px at 88% -10%, rgba(0,145,223,.20), transparent 60%),
+    radial-gradient(900px 600px at -8% 108%, rgba(102,181,18,.16), transparent 62%),
+    linear-gradient(145deg,#f4f9fd 0%,#ffffff 42%,#eaf3fa 100%);
+  position:relative;
+}
+/* Curvas sutiles, en la linea del fondo anterior */
+body::before,body::after{
+  content:"";position:absolute;border-radius:50%;pointer-events:none;
+}
+body::before{
+  width:1500px;height:1500px;right:-520px;top:-760px;
+  background:radial-gradient(circle at 50% 50%,rgba(0,145,223,.10),transparent 68%);
+}
+body::after{
+  width:1100px;height:1100px;left:-430px;bottom:-560px;
+  background:radial-gradient(circle at 50% 50%,rgba(102,181,18,.12),transparent 68%);
+}
+
+.tarjeta{
+  background:var(--tarjeta);
+  border:1px solid var(--borde);
+  border-radius:18px;
+  box-shadow:var(--sombra);
+  backdrop-filter:blur(6px);
+}
+
+/* ---------- Barra superior ---------- */
+#barra{
+  position:absolute;left:40px;top:24px;width:1840px;height:112px;
+  display:flex;align-items:center;padding:0 28px;gap:26px;z-index:3;
+}
+#logo{width:74px;height:74px;flex:0 0 auto;}
+#logo img{width:100%;height:100%;object-fit:contain;display:block;}
+
+.sep{width:1px;height:58px;background:var(--borde);flex:0 0 auto;}
+
+#fecha-bloque{display:flex;flex-direction:column;justify-content:center;gap:3px;}
+#dia{font-size:19px;font-weight:700;letter-spacing:.34em;color:var(--verde);text-transform:uppercase;}
+#fecha{font-size:27px;font-weight:600;white-space:nowrap;}
+
+#relleno{flex:1 1 auto;}
+
+/* Cotizacion */
+#bolsa{display:flex;align-items:center;gap:14px;}
+#bolsa .et{font-size:15px;font-weight:700;letter-spacing:.17em;color:var(--suave);text-transform:uppercase;}
+#bolsa .precio{font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;}
+#bolsa .var{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;padding:3px 11px;border-radius:9px;}
+#bolsa .sube{color:#3C8C06;background:rgba(102,181,18,.14);}
+#bolsa .baja{color:var(--rojo);background:rgba(208,2,27,.10);}
+#bolsa .plano{color:var(--suave);background:rgba(16,56,79,.07);}
+
+/* Reloj */
+#reloj{display:flex;align-items:baseline;gap:7px;}
+#hora{font-size:62px;font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
+#segundos{font-size:26px;font-weight:600;color:var(--verde);font-variant-numeric:tabular-nums;}
+
+/* ---------- Hueco de la playlist ---------- */
+#hueco{
+  position:absolute;left:40px;top:196px;width:1466px;height:824px;
+  border-radius:16px;
+  background:rgba(255,255,255,.5);
+  border:1px solid var(--borde);
+  box-shadow:var(--sombra);
+  z-index:1;
+  display:flex;align-items:center;justify-content:center;
+}
+#hueco span{font-size:20px;color:var(--suave);letter-spacing:.2em;text-transform:uppercase;opacity:.5;}
+
+/* ---------- Columna derecha ---------- */
+#columna{
+  position:absolute;left:1530px;top:160px;width:350px;height:896px;
+  display:flex;flex-direction:column;gap:18px;z-index:3;
+}
+.panel{padding:16px 18px;display:flex;flex-direction:column;}
+.titulo{
+  font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--suave);margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.titulo::after{content:"";flex:1;height:1px;background:var(--borde);}
+
+/* Tiempo ahora */
+#ahora{flex:0 0 auto;}
+#ahora .fila{display:flex;align-items:center;gap:14px;}
+#ahora .icono{width:74px;height:74px;flex:0 0 auto;}
+#ahora .temp{font-size:52px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;}
+#ahora .desc{font-size:17px;font-weight:600;color:var(--suave);margin-top:3px;line-height:1.2;}
+#ahora .detalle{
+  display:flex;gap:16px;margin-top:12px;padding-top:11px;
+  border-top:1px solid var(--borde);font-size:14px;color:var(--suave);
+}
+#ahora .detalle b{color:var(--texto);font-weight:700;}
+
+/* Prevision */
+#prevision{flex:0 0 auto;}
+.dia-fila{
+  display:flex;align-items:center;gap:11px;padding:7px 0;
+  border-bottom:1px solid var(--borde);
+}
+.dia-fila:last-child{border-bottom:none;}
+.dia-fila .nombre{width:46px;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+.dia-fila .ic{width:32px;height:32px;flex:0 0 auto;}
+.dia-fila .rango{margin-left:auto;font-size:17px;font-variant-numeric:tabular-nums;}
+.dia-fila .max{font-weight:700;}
+.dia-fila .min{color:var(--suave);}
+
+/* Sol */
+#sol{
+  flex:0 0 auto;display:flex;justify-content:space-around;
+  font-size:15px;font-variant-numeric:tabular-nums;
+}
+#sol div{display:flex;align-items:center;gap:7px;}
+#sol b{font-weight:700;}
+#sol .et{color:var(--suave);font-size:13px;letter-spacing:.1em;text-transform:uppercase;}
+
+/* Mapa de ciberamenazas */
+#ciber{flex:1 1 auto;min-height:0;padding-bottom:12px;}
+#ciber .marco{
+  flex:1 1 auto;min-height:0;border-radius:11px;overflow:hidden;
+  background:#0b1b26;position:relative;
+}
+/* El widget se renderiza a tamanyo grande y se reduce con escala,
+   asi el mapa conserva sus proporciones en vez de deformarse. */
+#ciber iframe{
+  position:absolute;top:0;left:0;width:960px;height:720px;border:0;
+  transform-origin:top left;
+}
+#ciber .pie{font-size:11px;color:var(--suave);margin-top:7px;text-align:right;opacity:.75;}
+
+.apagado{opacity:.4;}
+</style>
+</head>
+<body>
+
+  <!-- ===== Barra superior ===== -->
+  <div id="barra" class="tarjeta">
+    <div id="logo"><img src="../assets/bayer-logo.png" alt="Bayer"></div>
+    <div class="sep"></div>
+    <div id="fecha-bloque">
+      <div id="dia">&nbsp;</div>
+      <div id="fecha">&nbsp;</div>
+    </div>
+    <div id="relleno"></div>
+    <div id="bolsa">
+      <span class="et">Bayer AG</span>
+      <span class="precio" id="precio">--,--&nbsp;€</span>
+      <span class="var plano" id="variacion">--</span>
+    </div>
+    <div class="sep"></div>
+    <div id="reloj">
+      <span id="hora">--:--</span><span id="segundos"></span>
+    </div>
+  </div>
+
+  <!-- ===== Hueco para la playlist (lo tapa Yodeck) ===== -->
+  <div id="hueco"><span>Playlist</span></div>
+
+  <!-- ===== Columna derecha ===== -->
+  <div id="columna">
+
+    <div class="panel tarjeta" id="ahora">
+      <div class="titulo">Alcalá de Henares</div>
+      <div class="fila">
+        <div class="icono" id="ic-ahora"></div>
+        <div>
+          <div class="temp" id="temp">--°</div>
+          <div class="desc" id="desc">Cargando…</div>
+        </div>
+      </div>
+      <div class="detalle">
+        <span>Sensación <b id="sens">--°</b></span>
+        <span>Humedad <b id="hum">--%</b></span>
+        <span>Viento <b id="viento">--</b></span>
+      </div>
+    </div>
+
+    <div class="panel tarjeta" id="prevision">
+      <div class="titulo">Próximos días</div>
+      <div id="dias"></div>
+    </div>
+
+    <div class="panel tarjeta" id="sol-panel">
+      <div id="sol">
+        <div><span class="et">Amanece</span> <b id="amanece">--:--</b></div>
+        <div><span class="et">Anochece</span> <b id="anochece">--:--</b></div>
+      </div>
+    </div>
+
+    <div class="panel tarjeta" id="ciber">
+      <div class="titulo">Ciberamenazas en vivo</div>
+      <div class="marco" id="marco-ciber"></div>
+      <div class="pie">Fuente: Kaspersky Cybermap</div>
+    </div>
+
+  </div>
+
+<script>
+(function(){
+"use strict";
+
+/* ==================================================================
+   CONFIGURACION
+   ================================================================== */
+var CONFIG = {
+  zonaHoraria:"Europe/Madrid",
+  idioma:"es-ES",
+  formato24h:true,
+  mostrarSegundos:true,
+  lat:40.4818, lon:-3.3643,            // Alcala de Henares
+  urlDatos:"../datos.json",            // lo genera GitHub Actions
+  minutosTiempo:15,
+  minutosBolsa:5
+};
+
+/* ==================================================================
+   HORA  ·  identica logica endurecida del reloj:
+   el reproductor esta en UTC, asi que nunca se usa su hora local.
+   ================================================================== */
+var usarZona = true;
+try{
+  var p = new Intl.DateTimeFormat("en-GB",{timeZone:CONFIG.zonaHoraria,hour:"2-digit",hour12:false})
+            .format(new Date(Date.UTC(2026,6,15,12,0,0)));
+  if(parseInt(p,10)!==14) usarZona=false;          // julio: Madrid = UTC+2
+}catch(e){ usarZona=false; }
+
+var DIAS=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+var DIAS_C=["DOM","LUN","MAR","MIÉ","JUE","VIE","SÁB"];
+var MESES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
+           "septiembre","octubre","noviembre","diciembre"];
+
+function ultimoDomingoUTC(a,m){
+  var d=new Date(Date.UTC(a,m+1,0,1,0,0));
+  d.setUTCDate(d.getUTCDate()-d.getUTCDay());
+  return d;
+}
+function esVerano(f){
+  var a=f.getUTCFullYear();
+  return f>=ultimoDomingoUTC(a,2) && f<ultimoDomingoUTC(a,9);
+}
+function aMadrid(f){ return new Date(f.getTime()+(esVerano(f)?2:1)*3600000); }
+
+function dosDig(n){ return (n<10?"0":"")+n; }
+
+var ultimaFecha="";
+function pintarReloj(){
+  var ahora=new Date(), m=aMadrid(ahora);
+  var h=m.getUTCHours(), mi=m.getUTCMinutes(), se=m.getUTCSeconds();
+  if(usarZona){
+    try{
+      var ps=new Intl.DateTimeFormat("es-ES",{timeZone:CONFIG.zonaHoraria,
+        hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).formatToParts(ahora);
+      ps.forEach(function(x){
+        if(x.type==="hour") h=parseInt(x.value,10);
+        else if(x.type==="minute") mi=parseInt(x.value,10);
+        else if(x.type==="second") se=parseInt(x.value,10);
+      });
+    }catch(e){}
+  }
+  if(h===24) h=0;
+  document.getElementById("hora").textContent=dosDig(h)+":"+dosDig(mi);
+  document.getElementById("segundos").textContent=CONFIG.mostrarSegundos?dosDig(se):"";
+
+  var clave=m.getUTCFullYear()+"-"+m.getUTCMonth()+"-"+m.getUTCDate();
+  if(clave!==ultimaFecha){
+    ultimaFecha=clave;
+    document.getElementById("dia").textContent=DIAS[m.getUTCDay()].toUpperCase();
+    document.getElementById("fecha").textContent=
+      m.getUTCDate()+" de "+MESES[m.getUTCMonth()]+" de "+m.getUTCFullYear();
+  }
+}
+
+/* ==================================================================
+   ICONOS DEL TIEMPO  (SVG propio: nada de emojis, que en Raspberry
+   Pi pueden no estar instalados y saldrian como cuadrados)
+   ================================================================== */
+var SOL="#F5A623", NUBE="#9FB6C4", NUBE2="#7C97A8", AGUA="#0091DF", NIEVE="#BBD9EC", RAYO="#F5C542";
+
+function svg(c){ return '<svg viewBox="0 0 64 64" width="100%" height="100%">'+c+'</svg>'; }
+var g_sol='<circle cx="32" cy="30" r="13" fill="'+SOL+'"/>'+
+  '<g stroke="'+SOL+'" stroke-width="3.4" stroke-linecap="round">'+
+  '<path d="M32 6v7M32 54v4M8 30h7M51 30h5M14 12l5 5M46 44l4 4M50 12l-5 5M18 44l-4 4"/></g>';
+var g_nube='<path d="M20 44h25a10 10 0 0 0 .6-20 15 15 0 0 0-28.4 4A9 9 0 0 0 20 44z" fill="'+NUBE+'"/>';
+var g_nube_osc='<path d="M20 44h25a10 10 0 0 0 .6-20 15 15 0 0 0-28.4 4A9 9 0 0 0 20 44z" fill="'+NUBE2+'"/>';
+var g_solnube='<circle cx="24" cy="23" r="10" fill="'+SOL+'"/>'+
+  '<g stroke="'+SOL+'" stroke-width="2.8" stroke-linecap="round">'+
+  '<path d="M24 5v5M9 23h5M12 11l3.5 3.5M36 11l-3.5 3.5"/></g>'+g_nube;
+function gotas(n){
+  var s='',x=24;
+  for(var i=0;i<n;i++,x+=9) s+='<path d="M'+x+' 48l-2.5 7" stroke="'+AGUA+'" stroke-width="3.4" stroke-linecap="round"/>';
+  return s;
+}
+function copos(n){
+  var s='',x=24;
+  for(var i=0;i<n;i++,x+=9) s+='<circle cx="'+x+'" cy="52" r="2.8" fill="'+NIEVE+'"/>';
+  return s;
+}
+
+function icono(cod){
+  if(cod===0) return svg(g_sol);
+  if(cod===1||cod===2) return svg(g_solnube);
+  if(cod===3) return svg(g_nube_osc);
+  if(cod===45||cod===48) return svg(g_nube+'<g stroke="'+NUBE2+'" stroke-width="3" stroke-linecap="round"><path d="M18 50h28M22 57h20"/></g>');
+  if(cod>=51&&cod<=57) return svg(g_nube+gotas(2));
+  if(cod>=61&&cod<=67) return svg(g_nube_osc+gotas(3));
+  if(cod>=71&&cod<=77) return svg(g_nube+copos(3));
+  if(cod>=80&&cod<=82) return svg(g_solnube+gotas(3));
+  if(cod===85||cod===86) return svg(g_nube+copos(3));
+  if(cod>=95) return svg(g_nube_osc+'<path d="M32 46l-7 11h7l-3 9 11-13h-7l4-7z" fill="'+RAYO+'"/>');
+  return svg(g_nube);
+}
+function texto(cod){
+  if(cod===0) return "Despejado";
+  if(cod===1) return "Casi despejado";
+  if(cod===2) return "Parcialmente nublado";
+  if(cod===3) return "Nublado";
+  if(cod===45||cod===48) return "Niebla";
+  if(cod>=51&&cod<=57) return "Llovizna";
+  if(cod>=61&&cod<=65) return "Lluvia";
+  if(cod===66||cod===67) return "Lluvia helada";
+  if(cod>=71&&cod<=77) return "Nieve";
+  if(cod>=80&&cod<=82) return "Chubascos";
+  if(cod===85||cod===86) return "Chubascos de nieve";
+  if(cod===95) return "Tormenta";
+  if(cod>=96) return "Tormenta con granizo";
+  return "—";
+}
+
+/* ==================================================================
+   TIEMPO  (Open-Meteo: gratis, sin clave y con CORS abierto)
+   ================================================================== */
+function cargarTiempo(){
+  var u="https://api.open-meteo.com/v1/forecast"+
+    "?latitude="+CONFIG.lat+"&longitude="+CONFIG.lon+
+    "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m"+
+    "&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset"+
+    "&timezone=Europe%2FMadrid&forecast_days=4";
+
+  fetch(u).then(function(r){
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    return r.json();
+  }).then(function(j){
+    var c=j.current;
+    document.getElementById("ic-ahora").innerHTML=icono(c.weather_code);
+    document.getElementById("temp").textContent=Math.round(c.temperature_2m)+"°";
+    document.getElementById("desc").textContent=texto(c.weather_code);
+    document.getElementById("sens").textContent=Math.round(c.apparent_temperature)+"°";
+    document.getElementById("hum").textContent=c.relative_humidity_2m+"%";
+    document.getElementById("viento").textContent=Math.round(c.wind_speed_10m)+" km/h";
+
+    // Proximos 3 dias (se salta el indice 0, que es hoy)
+    var d=j.daily, html="";
+    for(var i=1;i<=3 && i<d.time.length;i++){
+      var f=new Date(d.time[i]+"T12:00:00");
+      html+='<div class="dia-fila">'+
+        '<span class="nombre">'+DIAS_C[f.getDay()]+'</span>'+
+        '<span class="ic">'+icono(d.weather_code[i])+'</span>'+
+        '<span class="rango"><span class="max">'+Math.round(d.temperature_2m_max[i])+'°</span>'+
+        ' <span class="min">'+Math.round(d.temperature_2m_min[i])+'°</span></span>'+
+      '</div>';
+    }
+    document.getElementById("dias").innerHTML=html;
+
+    document.getElementById("amanece").textContent=(d.sunrise[0]||"").slice(11,16)||"--:--";
+    document.getElementById("anochece").textContent=(d.sunset[0]||"").slice(11,16)||"--:--";
+
+    document.getElementById("ahora").classList.remove("apagado");
+    document.getElementById("prevision").classList.remove("apagado");
+  }).catch(function(e){
+    // Se deja el ultimo dato bueno visible pero atenuado, en vez de borrarlo
+    document.getElementById("ahora").classList.add("apagado");
+    document.getElementById("prevision").classList.add("apagado");
+  });
+}
+
+/* ==================================================================
+   COTIZACION  (JSON del mismo origen, generado por GitHub Actions
+   desde Boerse Frankfurt: su API rechaza peticiones del navegador)
+   ================================================================== */
+function cargarBolsa(){
+  fetch(CONFIG.urlDatos+"?t="+Date.now()).then(function(r){
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    return r.json();
+  }).then(function(j){
+    var b=j&&j.bayer; if(!b) throw new Error("sin datos");
+    document.getElementById("precio").textContent=
+      b.precio.toFixed(2).replace(".",",")+" €";
+    var v=document.getElementById("variacion");
+    var pct=b.variacionPct;
+    if(pct===null||pct===undefined){ v.textContent="—"; v.className="var plano"; }
+    else{
+      var s=pct>0?"+":"";
+      v.textContent=s+pct.toFixed(2).replace(".",",")+" %";
+      v.className="var "+(pct>0.01?"sube":pct<-0.01?"baja":"plano");
+    }
+    document.getElementById("bolsa").classList.toggle("apagado",!!j.obsoleto);
+  }).catch(function(e){
+    document.getElementById("bolsa").classList.add("apagado");
+  });
+}
+
+/* ==================================================================
+   MAPA DE CIBERAMENAZAS
+   Se inserta a 960x720 y se reduce por escala, para que el mapa
+   mantenga sus proporciones dentro de una columna estrecha.
+   ================================================================== */
+function montarCiber(){
+  var marco=document.getElementById("marco-ciber");
+  var f=document.createElement("iframe");
+  f.src="https://cybermap.kaspersky.com/en/widget/dynamic/light";
+  f.setAttribute("scrolling","no");
+  f.setAttribute("frameborder","0");
+  marco.appendChild(f);
+  var ajustar=function(){
+    var k=Math.max(marco.clientWidth/960, marco.clientHeight/720);
+    f.style.transform="scale("+k+")";
+    f.style.left=((marco.clientWidth-960*k)/2)+"px";
+    f.style.top =((marco.clientHeight-720*k)/2)+"px";
+  };
+  ajustar();
+  window.addEventListener("resize",ajustar);
+  setTimeout(ajustar,1200);
+}
+
+/* ================================================================== */
+pintarReloj();  setInterval(pintarReloj,250);
+cargarTiempo(); setInterval(cargarTiempo,CONFIG.minutosTiempo*60000);
+cargarBolsa();  setInterval(cargarBolsa, CONFIG.minutosBolsa *60000);
+montarCiber();
+})();
+</script>
+</body>
+</html>
