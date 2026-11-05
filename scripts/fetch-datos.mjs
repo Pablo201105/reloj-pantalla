@@ -157,13 +157,110 @@ try {
 }
 
 /* ==================================================================
+   CARBURANTES  ·  fichero oficial del Geoportal de Gasolineras
+   (geoportalgasolineras.es). Se regenera cada hora.
+
+   OJO: la antigua API REST del Ministerio esta muerta (404 en todas
+   sus rutas, comprobado tambien desde red limpia). Lo unico vivo es
+   este XLS de ~7,8 MB con las 11.470 estaciones de Espana, que hay
+   que descargar entero y filtrar aqui.
+   ================================================================== */
+const MUNICIPIO = /alcal[aá] de henares/i;
+const URL_XLS = "https://geoportalgasolineras.es/resources/files/preciosEESS_es.xls";
+
+async function cargarCarburantes() {
+  const XLSX = await import("xlsx");
+  const r = await fetch(URL_XLS, {
+    headers: { "User-Agent": UA },
+    signal: AbortSignal.timeout(120000),
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
+
+  const buf = Buffer.from(await r.arrayBuffer());
+  const libro = XLSX.read(buf, { type: "buffer" });
+  const hoja = libro.Sheets[libro.SheetNames[0]];
+  const filas = XLSX.utils.sheet_to_json(hoja, { header: 1, blankrows: false, raw: false });
+
+  const generado = String(filas[0]?.[1] ?? "").trim();
+
+  // La cabecera es la fila cuya primera celda es "Provincia".
+  // No sirve buscar "precio": la fila de descripcion tambien lo contiene.
+  const iCab = filas.findIndex(f => /^provincia$/i.test(String(f[0] ?? "").trim()));
+  if (iCab < 0) throw new Error("no se encuentra la cabecera");
+  const cab = filas[iCab].map(c => String(c ?? "").trim());
+  const col = re => cab.findIndex(c => re.test(c));
+
+  const C = {
+    municipio: col(/^municipio$/i), direccion: col(/^direcci/i),
+    rotulo: col(/^r[oó]tulo$/i),    venta: col(/^tipo venta$/i),
+    g95: col(/^precio gasolina 95 e5$/i),
+    goa: col(/^precio gas[oó]leo a$/i),
+    adblue: col(/^precio adblue$/i),
+  };
+
+  // Los precios vienen como "1,699" (coma decimal)
+  const num = v => {
+    const n = parseFloat(String(v ?? "").trim().replace(",", "."));
+    return isFinite(n) && n > 0 ? n : null;
+  };
+
+  const est = filas.slice(iCab + 1)
+    .filter(f => MUNICIPIO.test(String(f[C.municipio] ?? "")))
+    .filter(f => String(f[C.venta] ?? "").trim().toUpperCase() === "P")  // solo publicas
+    .map(f => ({
+      rotulo: String(f[C.rotulo] ?? "").trim(),
+      direccion: String(f[C.direccion] ?? "").trim(),
+      g95: num(f[C.g95]), goa: num(f[C.goa]), adblue: num(f[C.adblue]),
+    }));
+
+  if (!est.length) throw new Error("ninguna estacion en el municipio");
+
+  const red3 = n => Math.round(n * 1000) / 1000;
+
+  function resumir(clave) {
+    const con = est.filter(e => e[clave] !== null).sort((a, b) => a[clave] - b[clave]);
+    if (!con.length) return null;
+    const b = con[0];
+    return {
+      min: red3(b[clave]),
+      media: red3(con.reduce((s, e) => s + e[clave], 0) / con.length),
+      max: red3(con[con.length - 1][clave]),
+      rotulo: b.rotulo,
+      direccion: b.direccion,
+      estaciones: con.length,
+    };
+  }
+
+  return {
+    municipio: "Alcalá de Henares",
+    generado,
+    total: est.length,
+    goa: resumir("goa"),
+    g95: resumir("g95"),
+    adblue: resumir("adblue"),
+    fuente: "Geoportal de Gasolineras (MITECO)",
+  };
+}
+
+let carburantes = null;
+try {
+  carburantes = await cargarCarburantes();
+  console.log(`OK carburantes: ${carburantes.total} estaciones · ` +
+              `gasoleo ${carburantes.goa?.min} · gasolina ${carburantes.g95?.min} · ` +
+              `adblue ${carburantes.adblue?.min ?? "-"} · fichero ${carburantes.generado}`);
+} catch (e) {
+  console.log(`FALLO carburantes: ${e.message}`);
+}
+
+/* ==================================================================
    ESCRITURA  ·  si una parte falla se conserva la anterior, para que
    el panel nunca se quede con un hueco en blanco.
    ================================================================== */
 const SALIDA = "datos.json";
 const previo = existsSync(SALIDA) ? JSON.parse(readFileSync(SALIDA, "utf8")) : {};
 
-if (!bayer && !ciber && !previo.bayer && !previo.ciber) {
+if (!bayer && !ciber && !carburantes &&
+    !previo.bayer && !previo.ciber && !previo.carburantes) {
   console.log("Ninguna fuente respondio y no hay datos previos.");
   process.exit(1);
 }
@@ -173,11 +270,14 @@ const salida = {
   bayerObsoleto: !bayer && !!previo.bayer,
   ciber: ciber || previo.ciber || null,
   ciberObsoleto: !ciber && !!previo.ciber,
+  carburantes: carburantes || previo.carburantes || null,
+  carburantesObsoleto: !carburantes && !!previo.carburantes,
   actualizado: new Date().toISOString(),
 };
 
-if (salida.bayerObsoleto) console.log("Cotizacion: conservada la anterior (obsoleta).");
-if (salida.ciberObsoleto) console.log("Ciber: conservados los datos anteriores (obsoletos).");
+if (salida.bayerObsoleto)       console.log("Cotizacion: conservada la anterior (obsoleta).");
+if (salida.ciberObsoleto)       console.log("Ciber: conservados los datos anteriores (obsoletos).");
+if (salida.carburantesObsoleto) console.log("Carburantes: conservados los anteriores (obsoletos).");
 
 writeFileSync(SALIDA, JSON.stringify(salida, null, 2) + "\n");
 console.log("Escrito " + SALIDA);

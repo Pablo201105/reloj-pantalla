@@ -1,0 +1,9 @@
+{
+  "name": "pantallas-alcala",
+  "private": true,
+  "type": "module",
+  "description": "Datos para los paneles de senaletica (Ingenieria y Almacen)",
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}
