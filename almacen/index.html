@@ -51,10 +51,16 @@ body::after{width:1100px;height:1100px;left:-430px;bottom:-560px;
 #dia{font-size:19px;font-weight:700;letter-spacing:.34em;color:var(--verde);text-transform:uppercase;}
 #fecha{font-size:27px;font-weight:600;white-space:nowrap;}
 #relleno{flex:1 1 auto;}
-#semana{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
-#semana .g{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;}
-#semana .p{font-size:13px;font-weight:700;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--suave);}
+/* Cotizacion de Bayer (igual que en el panel de Ingenieria) */
+#bolsa{display:flex;align-items:center;gap:14px;}
+#bolsa .et{font-size:15px;font-weight:700;letter-spacing:.17em;
+  color:var(--suave);text-transform:uppercase;}
+#bolsa .precio{font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;}
+#bolsa .var{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;
+  padding:3px 11px;border-radius:9px;}
+#bolsa .sube {color:#3C8C06;background:rgba(102,181,18,.14);}
+#bolsa .baja {color:var(--rojo);background:rgba(208,2,27,.10);}
+#bolsa .plano{color:var(--suave);background:rgba(16,56,79,.07);}
 #reloj{display:flex;align-items:baseline;gap:7px;}
 #hora{font-size:62px;font-weight:700;line-height:1;letter-spacing:-.02em;
   font-variant-numeric:tabular-nums;}
@@ -153,9 +159,10 @@ body::after{width:1100px;height:1100px;left:-430px;bottom:-560px;
       <div id="fecha">&nbsp;</div>
     </div>
     <div id="relleno"></div>
-    <div id="semana">
-      <span class="g" id="semana-num">--</span>
-      <span class="p" id="semana-et">Semana</span>
+    <div id="bolsa">
+      <span class="et">Bayer AG</span>
+      <span class="precio" id="precio">--,--&nbsp;€</span>
+      <span class="var plano" id="variacion">--</span>
     </div>
     <div class="sep"></div>
     <div id="reloj"><span id="hora">--:--</span><span id="segundos"></span></div>
@@ -256,15 +263,6 @@ function esVerano(f){
 function aMadrid(f){ return new Date(f.getTime()+(esVerano(f)?2:1)*3600000); }
 function dosDig(n){ return (n<10?"0":"")+n; }
 
-// Semana ISO 8601: la que contiene el jueves. Se usa en albaranes y
-// planificacion logistica, por eso va en grande.
-function semanaISO(d){
-  var j=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()));
-  j.setUTCDate(j.getUTCDate()+4-(j.getUTCDay()||7));
-  var ini=new Date(Date.UTC(j.getUTCFullYear(),0,1));
-  return Math.ceil(((j-ini)/86400000+1)/7);
-}
-
 var ultimaFecha="";
 function pintarReloj(){
   var ahora=new Date(), m=aMadrid(ahora);
@@ -290,7 +288,6 @@ function pintarReloj(){
     document.getElementById("dia").textContent=DIAS[m.getUTCDay()].toUpperCase();
     document.getElementById("fecha").textContent=
       m.getUTCDate()+" de "+MESES[m.getUTCMonth()]+" de "+m.getUTCFullYear();
-    document.getElementById("semana-num").textContent=semanaISO(m);
   }
 }
 
@@ -454,16 +451,46 @@ function pintarCarburantes(j){
     "Geoportal de Gasolineras · " + (c.generado || "");
 }
 
+/* ==================================================================
+   COTIZACION DE BAYER  ·  del mismo datos.json
+   La trae GitHub Actions desde Boerse Frankfurt (Xetra): su API
+   rechaza las peticiones que llevan cabecera Origin, asi que no se
+   puede pedir desde el navegador.
+   ================================================================== */
+function pintarBolsa(j){
+  var b=j&&j.bayer, caja=document.getElementById("bolsa");
+  if(!b){ caja.classList.add("apagado"); return; }
+  caja.classList.toggle("apagado",!!j.bayerObsoleto);
+
+  document.getElementById("precio").textContent=
+    b.precio.toFixed(2).replace(".",",")+" €";
+
+  var v=document.getElementById("variacion"), pct=b.variacionPct;
+  if(pct===null||pct===undefined){ v.textContent="—"; v.className="var plano"; }
+  else{
+    v.textContent=(pct>0?"+":"")+pct.toFixed(2).replace(".",",")+" %";
+    v.className="var "+(pct>0.01?"sube":pct<-0.01?"baja":"plano");
+  }
+}
+
 function cargarDatos(){
   fetch(CONFIG.urlDatos+"?t="+Date.now()).then(function(r){
     if(!r.ok) throw new Error("HTTP "+r.status);
     return r.json();
   }).then(function(j){
-    pintarCarburantes(j);
+    // Independientes: si una parte falta, la otra se pinta igual
+    try{ pintarBolsa(j); }catch(e){}
+    try{ pintarCarburantes(j); }catch(e){}
   }).catch(function(){
     document.getElementById("carb").classList.add("apagado");
+    document.getElementById("bolsa").classList.add("apagado");
   });
 }
+
+// Gancho para la previsualizacion: permite forzar una racha y comprobar
+// los umbrales del aviso sin esperar a que haga viento de verdad.
+// En produccion es inerte, porque nadie lo llama.
+window.pruebaViento = pintarViento;
 
 /* ================================================================== */
 pintarReloj();  setInterval(pintarReloj,250);
