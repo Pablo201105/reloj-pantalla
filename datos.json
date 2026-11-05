@@ -1,11 +1,11 @@
 {
   "bayer": {
-    "precio": 55.48,
+    "precio": 56.28,
     "moneda": "EUR",
-    "variacion": 1.24,
-    "variacionPct": 2.29,
+    "variacion": 2.04,
+    "variacionPct": 3.76,
     "apertura": 55,
-    "momento": "2026-11-05T08:14:14Z",
+    "momento": "2026-11-05T16:29:59Z",
     "estado": "Continuous Trading",
     "fuente": "Xetra"
   },
@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-05",
-      "ataques": 2328718,
-      "origenes": 64350,
-      "objetivos": 385
+      "ataques": 7198774,
+      "origenes": 124449,
+      "objetivos": 481
     },
     "puertos": [
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 212298,
-        "origenes": 6419
-      },
-      {
-        "puerto": 161,
-        "nombre": "SNMP",
-        "registros": 132388,
-        "origenes": 402
+        "registros": 510388,
+        "origenes": 9883
       },
       {
         "puerto": 23,
         "nombre": "Telnet",
-        "registros": 128846,
-        "origenes": 4943
+        "registros": 259949,
+        "origenes": 9070
+      },
+      {
+        "puerto": 161,
+        "nombre": "SNMP",
+        "registros": 237241,
+        "origenes": 972
       },
       {
         "puerto": 443,
         "nombre": "HTTPS",
-        "registros": 69558,
-        "origenes": 5927
+        "registros": 183044,
+        "origenes": 9761
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,11 +49,11 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "05/11/2026 09:00",
+    "generado": "05/11/2026 17:00",
     "total": 32,
     "goa": {
       "min": 1.729,
-      "media": 1.849,
+      "media": 1.848,
       "max": 2.035,
       "rotulo": "LAVAPLUS",
       "direccion": "CARRERA DE AJALVIR, 3",
@@ -61,7 +61,7 @@
     },
     "g95": {
       "min": 1.549,
-      "media": 1.65,
+      "media": 1.649,
       "max": 1.799,
       "rotulo": "LAVAPLUS",
       "direccion": "CARRERA DE AJALVIR, 3",
@@ -78,5 +78,5 @@
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-05T08:29:21.741Z"
+  "actualizado": "2026-11-05T16:50:01.926Z"
 }
