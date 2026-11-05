@@ -11,13 +11,17 @@
    El hueco de la playlist lo cubre una region de Yodeck por encima:
    x=40  y=216  1396x785  (16:9)
    =================================================================== */
+/* --- TEMA OSCURO ---
+   Los acentos se aclaran respecto al tema claro: el verde #66B512 y el
+   rojo #D0021B de la paleta Bayer quedan apagados sobre fondo oscuro,
+   asi que se usan versiones mas luminosas solo para texto y estados. */
 :root{
-  --azul-oscuro:#10384F; --azul:#0091DF; --verde:#66B512;
-  --rojo:#D0021B; --ambar:#E8A00A; --naranja:#E8700A;
-  --texto:#10384F; --suave:#5B7B8C;
-  --tarjeta:rgba(255,255,255,.80);
-  --borde:rgba(16,56,79,.10);
-  --sombra:0 2px 14px rgba(16,56,79,.10);
+  --azul-oscuro:#0A2433; --azul:#2BA8EC; --verde:#8BD93A;
+  --rojo:#FF6B7D; --ambar:#FFC53D; --naranja:#FF9A3D;
+  --texto:#EAF3F9; --suave:#8FAEC0;
+  --tarjeta:rgba(255,255,255,.065);
+  --borde:rgba(255,255,255,.12);
+  --sombra:0 4px 22px rgba(0,0,0,.35);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{
@@ -27,16 +31,16 @@ html,body{
 }
 body{
   background:
-    radial-gradient(1200px 700px at 88% -10%, rgba(0,145,223,.20), transparent 60%),
-    radial-gradient(900px 600px at -8% 108%, rgba(102,181,18,.16), transparent 62%),
-    linear-gradient(145deg,#f4f9fd 0%,#ffffff 42%,#eaf3fa 100%);
+    radial-gradient(1200px 700px at 88% -10%, rgba(0,145,223,.28), transparent 62%),
+    radial-gradient(900px 600px at -8% 108%, rgba(102,181,18,.20), transparent 64%),
+    linear-gradient(145deg,#0A2433 0%,#12405A 46%,#081D2A 100%);
   position:relative;
 }
 body::before,body::after{content:"";position:absolute;border-radius:50%;pointer-events:none;}
 body::before{width:1500px;height:1500px;right:-520px;top:-760px;
-  background:radial-gradient(circle at 50% 50%,rgba(0,145,223,.10),transparent 68%);}
+  background:radial-gradient(circle at 50% 50%,rgba(0,145,223,.18),transparent 68%);}
 body::after{width:1100px;height:1100px;left:-430px;bottom:-560px;
-  background:radial-gradient(circle at 50% 50%,rgba(102,181,18,.12),transparent 68%);}
+  background:radial-gradient(circle at 50% 50%,rgba(102,181,18,.16),transparent 68%);}
 
 .tarjeta{background:var(--tarjeta);border:1px solid var(--borde);
   border-radius:18px;box-shadow:var(--sombra);backdrop-filter:blur(6px);}
@@ -44,7 +48,10 @@ body::after{width:1100px;height:1100px;left:-430px;bottom:-560px;
 /* ---------- Barra superior ---------- */
 #barra{position:absolute;left:40px;top:24px;width:1840px;height:112px;
   display:flex;align-items:center;padding:0 28px;gap:26px;z-index:3;}
-#logo{width:74px;height:74px;flex:0 0 auto;}
+/* Las letras del logo de Bayer son azul oscuro: sobre fondo oscuro
+   desaparecerian, asi que va sobre una pastilla blanca. */
+#logo{width:76px;height:76px;flex:0 0 auto;background:#fff;
+  border-radius:17px;padding:7px;box-shadow:0 2px 10px rgba(0,0,0,.25);}
 #logo img{width:100%;height:100%;object-fit:contain;display:block;}
 .sep{width:1px;height:58px;background:var(--borde);flex:0 0 auto;}
 #fecha-bloque{display:flex;flex-direction:column;justify-content:center;gap:3px;}
@@ -58,9 +65,9 @@ body::after{width:1100px;height:1100px;left:-430px;bottom:-560px;
 #bolsa .precio{font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;}
 #bolsa .var{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;
   padding:3px 11px;border-radius:9px;}
-#bolsa .sube {color:#3C8C06;background:rgba(102,181,18,.14);}
-#bolsa .baja {color:var(--rojo);background:rgba(208,2,27,.10);}
-#bolsa .plano{color:var(--suave);background:rgba(16,56,79,.07);}
+#bolsa .sube {color:var(--verde);background:rgba(139,217,58,.16);}
+#bolsa .baja {color:var(--rojo);background:rgba(255,107,125,.16);}
+#bolsa .plano{color:var(--suave);background:rgba(255,255,255,.09);}
 #reloj{display:flex;align-items:baseline;gap:7px;}
 #hora{font-size:62px;font-weight:700;line-height:1;letter-spacing:-.02em;
   font-variant-numeric:tabular-nums;}
@@ -68,7 +75,7 @@ body::after{width:1100px;height:1100px;left:-430px;bottom:-560px;
 
 /* ---------- Hueco de la playlist ---------- */
 #hueco{position:absolute;left:40px;top:216px;width:1396px;height:785px;
-  border-radius:16px;background:rgba(255,255,255,.5);
+  border-radius:16px;background:rgba(255,255,255,.05);
   border:1px solid var(--borde);box-shadow:var(--sombra);z-index:1;
   display:flex;align-items:center;justify-content:center;}
 #hueco span{font-size:20px;color:var(--suave);letter-spacing:.2em;
@@ -83,9 +90,11 @@ body::after{width:1100px;height:1100px;left:-430px;bottom:-560px;
 #aviso .txt{font-size:22px;font-weight:700;letter-spacing:.01em;}
 #aviso .det{margin-left:auto;font-size:19px;font-weight:600;opacity:.92;
   font-variant-numeric:tabular-nums;}
-#aviso.n-precaucion{background:linear-gradient(90deg,#E8A00A,#D18F06);}
-#aviso.n-riesgo    {background:linear-gradient(90deg,#E8700A,#CC5E04);}
-#aviso.n-peligro   {background:linear-gradient(90deg,#D0021B,#A60216);}
+/* Bandas solidas con texto blanco: se suben de brillo para que
+   destaquen sobre el fondo azul marino en vez de fundirse con el. */
+#aviso.n-precaucion{background:linear-gradient(90deg,#F5AC14,#DE9709);}
+#aviso.n-riesgo    {background:linear-gradient(90deg,#FA7D12,#DC6606);}
+#aviso.n-peligro   {background:linear-gradient(90deg,#EE1733,#C00A20);}
 
 /* ---------- Columna derecha ---------- */
 #columna{position:absolute;left:1460px;top:160px;width:420px;height:896px;
@@ -101,14 +110,14 @@ body::after{width:1100px;height:1100px;left:-430px;bottom:-560px;
 #ahora .temp{font-size:50px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;}
 #ahora .desc{font-size:17px;font-weight:600;color:var(--suave);margin-top:3px;}
 #viento-fila{display:flex;align-items:center;gap:10px;margin-top:11px;
-  padding:9px 12px;border-radius:11px;background:rgba(16,56,79,.05);}
+  padding:9px 12px;border-radius:11px;background:rgba(255,255,255,.07);}
 #viento-fila .et{font-size:12px;font-weight:700;letter-spacing:.14em;
   text-transform:uppercase;color:var(--suave);}
 #viento-fila .v{margin-left:auto;font-size:25px;font-weight:700;
   font-variant-numeric:tabular-nums;}
 #viento-fila .n{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
-.v-normal     .v,.v-normal     .n{color:#3C8C06;}
-.v-precaucion .v,.v-precaucion .n{color:#A8790A;}
+.v-normal     .v,.v-normal     .n{color:var(--verde);}
+.v-precaucion .v,.v-precaucion .n{color:var(--ambar);}
 .v-riesgo     .v,.v-riesgo     .n{color:var(--naranja);}
 .v-peligro    .v,.v-peligro    .n{color:var(--rojo);}
 
@@ -295,7 +304,9 @@ function pintarReloj(){
    ICONOS DEL TIEMPO  (SVG propio: en Raspberry Pi los emojis pueden
    no estar instalados y saldrian como cuadrados vacios)
    ================================================================== */
-var SOL="#F5A623",NUBE="#9FB6C4",NUBE2="#7C97A8",AGUA="#0091DF",NIEVE="#BBD9EC",RAYO="#F5C542";
+// Tonos aclarados para el tema oscuro: el azul #0091DF de la lluvia
+// y el gris de las nubes se perdian sobre el fondo azul marino.
+var SOL="#FFB63D",NUBE="#B9CEDC",NUBE2="#93AEBF",AGUA="#45B8F0",NIEVE="#D5EAF7",RAYO="#FFD54A";
 function svg(c){ return '<svg viewBox="0 0 64 64" width="100%" height="100%">'+c+'</svg>'; }
 var g_sol='<circle cx="32" cy="30" r="13" fill="'+SOL+'"/>'+
   '<g stroke="'+SOL+'" stroke-width="3.4" stroke-linecap="round">'+
