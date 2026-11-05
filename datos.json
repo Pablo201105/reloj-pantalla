@@ -13,39 +13,14 @@
   "ciber": {
     "infocon": "green",
     "hoy": {
-      "fecha": "2026-11-04",
-      "ataques": 10140861,
-      "origenes": 138407,
-      "objetivos": 508
+      "fecha": "2026-11-05",
+      "ataques": 5148,
+      "origenes": 1473,
+      "objetivos": 1
     },
-    "puertos": [
-      {
-        "puerto": 22,
-        "nombre": "SSH",
-        "registros": 881594,
-        "origenes": 18213
-      },
-      {
-        "puerto": 23,
-        "nombre": "Telnet",
-        "registros": 496029,
-        "origenes": 17039
-      },
-      {
-        "puerto": 443,
-        "nombre": "HTTPS",
-        "registros": 455071,
-        "origenes": 15608
-      },
-      {
-        "puerto": 161,
-        "nombre": "SNMP",
-        "registros": 378681,
-        "origenes": 1549
-      }
-    ],
+    "puertos": [],
     "fuente": "SANS Internet Storm Center"
   },
   "ciberObsoleto": false,
-  "actualizado": "2026-11-04T21:05:48.998Z"
+  "actualizado": "2026-11-05T01:30:21.178Z"
 }
