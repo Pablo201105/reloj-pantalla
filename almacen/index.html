@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, initial-scale=1">
+<title>Panel Almacen</title>
+<style>
+/* ===================================================================
+   PANEL ALMACEN  ·  1920 x 1080
+   Pensado para que un camionero lo lea de lejos y de un vistazo.
+   El hueco de la playlist lo cubre una region de Yodeck por encima:
+   x=40  y=216  1396x785  (16:9)
+   =================================================================== */
+:root{
+  --azul-oscuro:#10384F; --azul:#0091DF; --verde:#66B512;
+  --rojo:#D0021B; --ambar:#E8A00A; --naranja:#E8700A;
+  --texto:#10384F; --suave:#5B7B8C;
+  --tarjeta:rgba(255,255,255,.80);
+  --borde:rgba(16,56,79,.10);
+  --sombra:0 2px 14px rgba(16,56,79,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+  width:1920px;height:1080px;overflow:hidden;
+  font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  color:var(--texto);-webkit-font-smoothing:antialiased;
+}
+body{
+  background:
+    radial-gradient(1200px 700px at 88% -10%, rgba(0,145,223,.20), transparent 60%),
+    radial-gradient(900px 600px at -8% 108%, rgba(102,181,18,.16), transparent 62%),
+    linear-gradient(145deg,#f4f9fd 0%,#ffffff 42%,#eaf3fa 100%);
+  position:relative;
+}
+body::before,body::after{content:"";position:absolute;border-radius:50%;pointer-events:none;}
+body::before{width:1500px;height:1500px;right:-520px;top:-760px;
+  background:radial-gradient(circle at 50% 50%,rgba(0,145,223,.10),transparent 68%);}
+body::after{width:1100px;height:1100px;left:-430px;bottom:-560px;
+  background:radial-gradient(circle at 50% 50%,rgba(102,181,18,.12),transparent 68%);}
+
+.tarjeta{background:var(--tarjeta);border:1px solid var(--borde);
+  border-radius:18px;box-shadow:var(--sombra);backdrop-filter:blur(6px);}
+
+/* ---------- Barra superior ---------- */
+#barra{position:absolute;left:40px;top:24px;width:1840px;height:112px;
+  display:flex;align-items:center;padding:0 28px;gap:26px;z-index:3;}
+#logo{width:74px;height:74px;flex:0 0 auto;}
+#logo img{width:100%;height:100%;object-fit:contain;display:block;}
+.sep{width:1px;height:58px;background:var(--borde);flex:0 0 auto;}
+#fecha-bloque{display:flex;flex-direction:column;justify-content:center;gap:3px;}
+#dia{font-size:19px;font-weight:700;letter-spacing:.34em;color:var(--verde);text-transform:uppercase;}
+#fecha{font-size:27px;font-weight:600;white-space:nowrap;}
+#relleno{flex:1 1 auto;}
+#semana{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+#semana .g{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;}
+#semana .p{font-size:13px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--suave);}
+#reloj{display:flex;align-items:baseline;gap:7px;}
+#hora{font-size:62px;font-weight:700;line-height:1;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;}
+#segundos{font-size:26px;font-weight:600;color:var(--verde);font-variant-numeric:tabular-nums;}
+
+/* ---------- Hueco de la playlist ---------- */
+#hueco{position:absolute;left:40px;top:216px;width:1396px;height:785px;
+  border-radius:16px;background:rgba(255,255,255,.5);
+  border:1px solid var(--borde);box-shadow:var(--sombra);z-index:1;
+  display:flex;align-items:center;justify-content:center;}
+#hueco span{font-size:20px;color:var(--suave);letter-spacing:.2em;
+  text-transform:uppercase;opacity:.5;}
+
+/* ---------- Aviso de viento (solo cuando hay riesgo) ---------- */
+#aviso{position:absolute;left:40px;top:152px;width:1396px;height:52px;
+  border-radius:12px;z-index:4;display:none;align-items:center;gap:14px;
+  padding:0 20px;color:#fff;}
+#aviso.visible{display:flex;}
+#aviso .ico{font-size:25px;font-weight:700;line-height:1;}
+#aviso .txt{font-size:22px;font-weight:700;letter-spacing:.01em;}
+#aviso .det{margin-left:auto;font-size:19px;font-weight:600;opacity:.92;
+  font-variant-numeric:tabular-nums;}
+#aviso.n-precaucion{background:linear-gradient(90deg,#E8A00A,#D18F06);}
+#aviso.n-riesgo    {background:linear-gradient(90deg,#E8700A,#CC5E04);}
+#aviso.n-peligro   {background:linear-gradient(90deg,#D0021B,#A60216);}
+
+/* ---------- Columna derecha ---------- */
+#columna{position:absolute;left:1460px;top:160px;width:420px;height:896px;
+  display:flex;flex-direction:column;gap:16px;z-index:3;}
+.panel{padding:15px 18px;display:flex;flex-direction:column;}
+.titulo{font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--suave);margin-bottom:9px;display:flex;align-items:center;gap:8px;}
+.titulo::after{content:"";flex:1;height:1px;background:var(--borde);}
+
+/* Tiempo + viento */
+#ahora .fila{display:flex;align-items:center;gap:14px;}
+#ahora .icono{width:70px;height:70px;flex:0 0 auto;}
+#ahora .temp{font-size:50px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;}
+#ahora .desc{font-size:17px;font-weight:600;color:var(--suave);margin-top:3px;}
+#viento-fila{display:flex;align-items:center;gap:10px;margin-top:11px;
+  padding:9px 12px;border-radius:11px;background:rgba(16,56,79,.05);}
+#viento-fila .et{font-size:12px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--suave);}
+#viento-fila .v{margin-left:auto;font-size:25px;font-weight:700;
+  font-variant-numeric:tabular-nums;}
+#viento-fila .n{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.v-normal     .v,.v-normal     .n{color:#3C8C06;}
+.v-precaucion .v,.v-precaucion .n{color:#A8790A;}
+.v-riesgo     .v,.v-riesgo     .n{color:var(--naranja);}
+.v-peligro    .v,.v-peligro    .n{color:var(--rojo);}
+
+/* Carburantes */
+#carb{flex:0 0 auto;}
+.carb-fila{display:flex;align-items:center;gap:11px;padding:9px 0;
+  border-bottom:1px solid var(--borde);}
+.carb-fila:last-of-type{border-bottom:none;}
+.carb-fila .prod{font-size:20px;font-weight:700;width:124px;flex:0 0 auto;}
+.carb-fila .prod small{display:block;font-size:11px;font-weight:600;
+  color:var(--suave);letter-spacing:.09em;text-transform:uppercase;margin-top:1px;}
+.carb-fila .precio{margin-left:auto;text-align:right;}
+.carb-fila .precio b{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;
+  display:block;line-height:1;}
+.carb-fila .precio small{font-size:12px;color:var(--suave);font-variant-numeric:tabular-nums;}
+#carb .donde{font-size:13px;color:var(--suave);margin-top:8px;
+  padding-top:8px;border-top:1px solid var(--borde);line-height:1.45;}
+#carb .donde b{color:var(--texto);}
+#carb .pie{font-size:10.5px;color:var(--suave);margin-top:6px;text-align:right;opacity:.75;}
+
+/* Prevision */
+.dia-fila{display:flex;align-items:center;gap:11px;padding:8px 0;
+  border-bottom:1px solid var(--borde);line-height:1.15;}
+.dia-fila:last-child{border-bottom:none;}
+.dia-fila .nombre{width:66px;font-size:26px;font-weight:700;text-transform:uppercase;}
+.dia-fila .ic{width:40px;height:40px;flex:0 0 auto;}
+.dia-fila .rango{margin-left:auto;font-size:29px;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.dia-fila .max{font-weight:700;}
+.dia-fila .min{color:var(--suave);font-weight:600;}
+
+/* Sol */
+#sol{flex:0 0 auto;display:flex;justify-content:space-around;align-items:center;}
+#sol div{display:flex;flex-direction:column;align-items:center;gap:1px;}
+#sol .et{font-size:11px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--suave);}
+#sol b{font-size:25px;font-weight:700;font-variant-numeric:tabular-nums;}
+
+.apagado{opacity:.4;}
+</style>
+</head>
+<body>
+
+  <div id="barra" class="tarjeta">
+    <div id="logo"><img src="../assets/bayer-logo.png" alt="Bayer"></div>
+    <div class="sep"></div>
+    <div id="fecha-bloque">
+      <div id="dia">&nbsp;</div>
+      <div id="fecha">&nbsp;</div>
+    </div>
+    <div id="relleno"></div>
+    <div id="semana">
+      <span class="g" id="semana-num">--</span>
+      <span class="p" id="semana-et">Semana</span>
+    </div>
+    <div class="sep"></div>
+    <div id="reloj"><span id="hora">--:--</span><span id="segundos"></span></div>
+  </div>
+
+  <!-- Solo aparece cuando las rachas superan el umbral -->
+  <div id="aviso">
+    <span class="ico">&#9888;</span>
+    <span class="txt" id="aviso-txt"></span>
+    <span class="det" id="aviso-det"></span>
+  </div>
+
+  <div id="hueco"><span>Playlist</span></div>
+
+  <div id="columna">
+
+    <div class="panel tarjeta" id="ahora">
+      <div class="titulo">Alcalá de Henares</div>
+      <div class="fila">
+        <div class="icono" id="ic-ahora"></div>
+        <div>
+          <div class="temp" id="temp">--°</div>
+          <div class="desc" id="desc">Cargando…</div>
+        </div>
+      </div>
+      <div id="viento-fila">
+        <span class="et">Rachas</span>
+        <span class="n" id="viento-nivel">—</span>
+        <span class="v" id="viento">-- km/h</span>
+      </div>
+    </div>
+
+    <div class="panel tarjeta" id="carb">
+      <div class="titulo">Carburante más barato · Alcalá</div>
+      <div id="carb-filas"></div>
+      <div class="donde" id="carb-donde">—</div>
+      <div class="pie" id="carb-pie">Geoportal de Gasolineras</div>
+    </div>
+
+    <div class="panel tarjeta" id="prevision">
+      <div class="titulo">Próximos días</div>
+      <div id="dias"></div>
+    </div>
+
+    <div class="panel tarjeta" id="sol-panel">
+      <div id="sol">
+        <div><span class="et">Amanece</span><b id="amanece">--:--</b></div>
+        <div><span class="et">Anochece</span><b id="anochece">--:--</b></div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+(function(){
+"use strict";
+
+/* ==================================================================
+   CONFIGURACION
+   ================================================================== */
+var CONFIG = {
+  zonaHoraria:"Europe/Madrid", idioma:"es-ES",
+  formato24h:true, mostrarSegundos:true,
+  lat:40.4818, lon:-3.3643,          // Alcala de Henares
+  urlDatos:"../datos.json",
+  minutosTiempo:15,
+  minutosDatos:10,
+
+  // Umbrales de racha en km/h. Lo que importa para un remolque con lona
+  // es la RACHA maxima, no la velocidad media del viento.
+  viento:{ precaucion:40, riesgo:60, peligro:80 }
+};
+
+/* ==================================================================
+   HORA  ·  el reproductor puede estar en UTC, asi que nunca se usa
+   su hora local: se fuerza Europe/Madrid.
+   ================================================================== */
+var usarZona = true;
+try{
+  var pr = new Intl.DateTimeFormat("en-GB",{timeZone:CONFIG.zonaHoraria,hour:"2-digit",hour12:false})
+             .format(new Date(Date.UTC(2026,6,15,12,0,0)));
+  if(parseInt(pr,10)!==14) usarZona=false;      // julio: Madrid = UTC+2
+}catch(e){ usarZona=false; }
+
+var DIAS=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+var DIAS_C=["DOM","LUN","MAR","MIÉ","JUE","VIE","SÁB"];
+var MESES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
+           "septiembre","octubre","noviembre","diciembre"];
+
+function ultimoDomingoUTC(a,m){
+  var d=new Date(Date.UTC(a,m+1,0,1,0,0));
+  d.setUTCDate(d.getUTCDate()-d.getUTCDay()); return d;
+}
+function esVerano(f){
+  var a=f.getUTCFullYear();
+  return f>=ultimoDomingoUTC(a,2) && f<ultimoDomingoUTC(a,9);
+}
+function aMadrid(f){ return new Date(f.getTime()+(esVerano(f)?2:1)*3600000); }
+function dosDig(n){ return (n<10?"0":"")+n; }
+
+// Semana ISO 8601: la que contiene el jueves. Se usa en albaranes y
+// planificacion logistica, por eso va en grande.
+function semanaISO(d){
+  var j=new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()));
+  j.setUTCDate(j.getUTCDate()+4-(j.getUTCDay()||7));
+  var ini=new Date(Date.UTC(j.getUTCFullYear(),0,1));
+  return Math.ceil(((j-ini)/86400000+1)/7);
+}
+
+var ultimaFecha="";
+function pintarReloj(){
+  var ahora=new Date(), m=aMadrid(ahora);
+  var h=m.getUTCHours(), mi=m.getUTCMinutes(), se=m.getUTCSeconds();
+  if(usarZona){
+    try{
+      new Intl.DateTimeFormat("es-ES",{timeZone:CONFIG.zonaHoraria,hour:"2-digit",
+        minute:"2-digit",second:"2-digit",hour12:false}).formatToParts(ahora)
+        .forEach(function(x){
+          if(x.type==="hour") h=parseInt(x.value,10);
+          else if(x.type==="minute") mi=parseInt(x.value,10);
+          else if(x.type==="second") se=parseInt(x.value,10);
+        });
+    }catch(e){}
+  }
+  if(h===24) h=0;
+  document.getElementById("hora").textContent=dosDig(h)+":"+dosDig(mi);
+  document.getElementById("segundos").textContent=CONFIG.mostrarSegundos?dosDig(se):"";
+
+  var clave=m.getUTCFullYear()+"-"+m.getUTCMonth()+"-"+m.getUTCDate();
+  if(clave!==ultimaFecha){
+    ultimaFecha=clave;
+    document.getElementById("dia").textContent=DIAS[m.getUTCDay()].toUpperCase();
+    document.getElementById("fecha").textContent=
+      m.getUTCDate()+" de "+MESES[m.getUTCMonth()]+" de "+m.getUTCFullYear();
+    document.getElementById("semana-num").textContent=semanaISO(m);
+  }
+}
+
+/* ==================================================================
+   ICONOS DEL TIEMPO  (SVG propio: en Raspberry Pi los emojis pueden
+   no estar instalados y saldrian como cuadrados vacios)
+   ================================================================== */
+var SOL="#F5A623",NUBE="#9FB6C4",NUBE2="#7C97A8",AGUA="#0091DF",NIEVE="#BBD9EC",RAYO="#F5C542";
+function svg(c){ return '<svg viewBox="0 0 64 64" width="100%" height="100%">'+c+'</svg>'; }
+var g_sol='<circle cx="32" cy="30" r="13" fill="'+SOL+'"/>'+
+  '<g stroke="'+SOL+'" stroke-width="3.4" stroke-linecap="round">'+
+  '<path d="M32 6v7M32 54v4M8 30h7M51 30h5M14 12l5 5M46 44l4 4M50 12l-5 5M18 44l-4 4"/></g>';
+var g_nube='<path d="M20 44h25a10 10 0 0 0 .6-20 15 15 0 0 0-28.4 4A9 9 0 0 0 20 44z" fill="'+NUBE+'"/>';
+var g_nube_osc='<path d="M20 44h25a10 10 0 0 0 .6-20 15 15 0 0 0-28.4 4A9 9 0 0 0 20 44z" fill="'+NUBE2+'"/>';
+var g_solnube='<circle cx="24" cy="23" r="10" fill="'+SOL+'"/>'+
+  '<g stroke="'+SOL+'" stroke-width="2.8" stroke-linecap="round">'+
+  '<path d="M24 5v5M9 23h5M12 11l3.5 3.5M36 11l-3.5 3.5"/></g>'+g_nube;
+function gotas(n){var s="",x=24;for(var i=0;i<n;i++,x+=9)
+  s+='<path d="M'+x+' 48l-2.5 7" stroke="'+AGUA+'" stroke-width="3.4" stroke-linecap="round"/>';return s;}
+function copos(n){var s="",x=24;for(var i=0;i<n;i++,x+=9)
+  s+='<circle cx="'+x+'" cy="52" r="2.8" fill="'+NIEVE+'"/>';return s;}
+function icono(c){
+  if(c===0) return svg(g_sol);
+  if(c===1||c===2) return svg(g_solnube);
+  if(c===3) return svg(g_nube_osc);
+  if(c===45||c===48) return svg(g_nube+'<g stroke="'+NUBE2+'" stroke-width="3" stroke-linecap="round"><path d="M18 50h28M22 57h20"/></g>');
+  if(c>=51&&c<=57) return svg(g_nube+gotas(2));
+  if(c>=61&&c<=67) return svg(g_nube_osc+gotas(3));
+  if(c>=71&&c<=77) return svg(g_nube+copos(3));
+  if(c>=80&&c<=82) return svg(g_solnube+gotas(3));
+  if(c===85||c===86) return svg(g_nube+copos(3));
+  if(c>=95) return svg(g_nube_osc+'<path d="M32 46l-7 11h7l-3 9 11-13h-7l4-7z" fill="'+RAYO+'"/>');
+  return svg(g_nube);
+}
+function texto(c){
+  if(c===0) return "Despejado";
+  if(c===1) return "Casi despejado";
+  if(c===2) return "Parcialmente nublado";
+  if(c===3) return "Nublado";
+  if(c===45||c===48) return "Niebla";
+  if(c>=51&&c<=57) return "Llovizna";
+  if(c>=61&&c<=65) return "Lluvia";
+  if(c===66||c===67) return "Lluvia helada";
+  if(c>=71&&c<=77) return "Nieve";
+  if(c>=80&&c<=82) return "Chubascos";
+  if(c===85||c===86) return "Chubascos de nieve";
+  if(c===95) return "Tormenta";
+  if(c>=96) return "Tormenta con granizo";
+  return "—";
+}
+
+/* ==================================================================
+   AVISO DE VIENTO
+   La racha es lo que vuelca una lona, no el viento medio.
+   ================================================================== */
+function pintarViento(racha){
+  var u=CONFIG.viento, fila=document.getElementById("viento-fila");
+  var aviso=document.getElementById("aviso");
+  var nivel, clase, txt;
+
+  if(racha>=u.peligro)        { nivel="Peligro";    clase="peligro";
+    txt="VIENTO MUY FUERTE · Riesgo de vuelco en vehículos con lona"; }
+  else if(racha>=u.riesgo)    { nivel="Riesgo";     clase="riesgo";
+    txt="VIENTO FUERTE · Precaución con remolques y lonas"; }
+  else if(racha>=u.precaucion){ nivel="Precaución"; clase="precaucion";
+    txt="RACHAS DE VIENTO · Atención al maniobrar"; }
+  else                        { nivel="Normal";     clase="normal"; txt=null; }
+
+  fila.className="";                       // se reinicia antes de aplicar
+  fila.classList.add("v-"+clase);
+  document.getElementById("viento-nivel").textContent=nivel;
+  document.getElementById("viento").textContent=Math.round(racha)+" km/h";
+
+  if(txt){
+    aviso.className="visible n-"+clase;
+    document.getElementById("aviso-txt").textContent=txt;
+    document.getElementById("aviso-det").textContent="Rachas de "+Math.round(racha)+" km/h";
+  }else{
+    aviso.className="";
+  }
+}
+
+/* ==================================================================
+   TIEMPO  (Open-Meteo: gratis, sin clave y con CORS abierto)
+   ================================================================== */
+function cargarTiempo(){
+  var u="https://api.open-meteo.com/v1/forecast"+
+    "?latitude="+CONFIG.lat+"&longitude="+CONFIG.lon+
+    "&current=temperature_2m,weather_code,wind_speed_10m,wind_gusts_10m"+
+    "&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset"+
+    "&timezone=Europe%2FMadrid&forecast_days=4";
+
+  fetch(u).then(function(r){
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    return r.json();
+  }).then(function(j){
+    var c=j.current;
+    document.getElementById("ic-ahora").innerHTML=icono(c.weather_code);
+    document.getElementById("temp").textContent=Math.round(c.temperature_2m)+"°";
+    document.getElementById("desc").textContent=texto(c.weather_code);
+    pintarViento(c.wind_gusts_10m!==undefined && c.wind_gusts_10m!==null
+                 ? c.wind_gusts_10m : c.wind_speed_10m);
+
+    var d=j.daily, html="";
+    for(var i=1;i<=3 && i<d.time.length;i++){
+      var f=new Date(d.time[i]+"T12:00:00");   // mediodia: el dia no baila por zona horaria
+      html+='<div class="dia-fila">'+
+        '<span class="nombre">'+DIAS_C[f.getDay()]+'</span>'+
+        '<span class="ic">'+icono(d.weather_code[i])+'</span>'+
+        '<span class="rango"><span class="max">'+Math.round(d.temperature_2m_max[i])+'°</span>'+
+        ' <span class="min">'+Math.round(d.temperature_2m_min[i])+'°</span></span>'+
+      '</div>';
+    }
+    document.getElementById("dias").innerHTML=html;
+    document.getElementById("amanece").textContent=(d.sunrise[0]||"").slice(11,16)||"--:--";
+    document.getElementById("anochece").textContent=(d.sunset[0]||"").slice(11,16)||"--:--";
+
+    document.getElementById("ahora").classList.remove("apagado");
+    document.getElementById("prevision").classList.remove("apagado");
+  }).catch(function(){
+    document.getElementById("ahora").classList.add("apagado");
+    document.getElementById("prevision").classList.add("apagado");
+  });
+}
+
+/* ==================================================================
+   CARBURANTES  ·  del datos.json que genera GitHub Actions
+   (el fichero oficial es un XLS de 7,8 MB, no se puede leer aqui)
+   ================================================================== */
+function eur(n){ return n.toFixed(3).replace(".",",")+" €"; }
+
+var PRODUCTOS=[
+  {k:"goa",    nombre:"Gasóleo A", nota:"Diésel"},
+  {k:"g95",    nombre:"Gasolina",  nota:"95 E5"},
+  {k:"adblue", nombre:"AdBlue",    nota:"Urea"}
+];
+
+function pintarCarburantes(j){
+  var c=j&&j.carburantes, caja=document.getElementById("carb");
+  if(!c){ caja.classList.add("apagado"); return; }
+  caja.classList.toggle("apagado",!!j.carburantesObsoleto);
+
+  var html="", barata=null;
+  PRODUCTOS.forEach(function(p){
+    var d=c[p.k];
+    html+='<div class="carb-fila">'+
+      '<span class="prod">'+p.nombre+'<small>'+p.nota+'</small></span>'+
+      '<span class="precio">'+
+        (d ? '<b>'+eur(d.min)+'</b><small>media '+eur(d.media)+'</small>'
+           : '<b>—</b><small>sin datos</small>')+
+      '</span></div>';
+    if(d && !barata) barata=d;     // el primero con datos marca donde repostar
+  });
+  document.getElementById("carb-filas").innerHTML=html;
+
+  document.getElementById("carb-donde").innerHTML = barata
+    ? 'Más barato en <b>'+barata.rotulo+'</b><br>'+barata.direccion
+    : '—';
+
+  document.getElementById("carb-pie").textContent=
+    "Geoportal de Gasolineras · " + (c.generado || "");
+}
+
+function cargarDatos(){
+  fetch(CONFIG.urlDatos+"?t="+Date.now()).then(function(r){
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    return r.json();
+  }).then(function(j){
+    pintarCarburantes(j);
+  }).catch(function(){
+    document.getElementById("carb").classList.add("apagado");
+  });
+}
+
+/* ================================================================== */
+pintarReloj();  setInterval(pintarReloj,250);
+cargarTiempo(); setInterval(cargarTiempo,CONFIG.minutosTiempo*60000);
+cargarDatos();  setInterval(cargarDatos, CONFIG.minutosDatos *60000);
+})();
+</script>
+</body>
+</html>
