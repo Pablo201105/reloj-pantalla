@@ -10,16 +10,19 @@
    El hueco de la playlist lo cubre una region de Yodeck por encima:
    x=40  y=196  1466x824  (16:9)
    =================================================================== */
+/* --- TEMA OSCURO ---
+   Los acentos se aclaran respecto a la paleta Bayer: el verde #66B512
+   y el rojo #D0021B se apagan sobre fondo oscuro, asi que para texto
+   y estados se usan versiones mas luminosas. */
 :root{
-  --azul-oscuro:#10384F;
-  --azul:#0091DF;
-  --verde:#66B512;
-  --rojo:#D0021B;
-  --texto:#10384F;
-  --suave:#5B7B8C;
-  --tarjeta:rgba(255,255,255,.78);
-  --borde:rgba(16,56,79,.10);
-  --sombra:0 2px 14px rgba(16,56,79,.10);
+  --azul:#2BA8EC;
+  --verde:#8BD93A;
+  --rojo:#FF6B7D;
+  --texto:#EAF3F9;
+  --suave:#8FAEC0;
+  --tarjeta:rgba(255,255,255,.065);
+  --borde:rgba(255,255,255,.12);
+  --sombra:0 4px 22px rgba(0,0,0,.35);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{
@@ -31,9 +34,9 @@ html,body{
 /* ---------- Fondo corporativo claro ---------- */
 body{
   background:
-    radial-gradient(1200px 700px at 88% -10%, rgba(0,145,223,.20), transparent 60%),
-    radial-gradient(900px 600px at -8% 108%, rgba(102,181,18,.16), transparent 62%),
-    linear-gradient(145deg,#f4f9fd 0%,#ffffff 42%,#eaf3fa 100%);
+    radial-gradient(1200px 700px at 88% -10%, rgba(0,145,223,.28), transparent 62%),
+    radial-gradient(900px 600px at -8% 108%, rgba(102,181,18,.20), transparent 64%),
+    linear-gradient(145deg,#0A2433 0%,#12405A 46%,#081D2A 100%);
   position:relative;
 }
 /* Curvas sutiles, en la linea del fondo anterior */
@@ -42,11 +45,11 @@ body::before,body::after{
 }
 body::before{
   width:1500px;height:1500px;right:-520px;top:-760px;
-  background:radial-gradient(circle at 50% 50%,rgba(0,145,223,.10),transparent 68%);
+  background:radial-gradient(circle at 50% 50%,rgba(0,145,223,.18),transparent 68%);
 }
 body::after{
   width:1100px;height:1100px;left:-430px;bottom:-560px;
-  background:radial-gradient(circle at 50% 50%,rgba(102,181,18,.12),transparent 68%);
+  background:radial-gradient(circle at 50% 50%,rgba(102,181,18,.16),transparent 68%);
 }
 
 .tarjeta{
@@ -62,7 +65,10 @@ body::after{
   position:absolute;left:40px;top:24px;width:1840px;height:112px;
   display:flex;align-items:center;padding:0 28px;gap:26px;z-index:3;
 }
-#logo{width:74px;height:74px;flex:0 0 auto;}
+/* Las letras del logo de Bayer son azul oscuro: sobre fondo oscuro
+   desaparecerian, asi que va sobre una pastilla blanca. */
+#logo{width:76px;height:76px;flex:0 0 auto;background:#fff;
+  border-radius:17px;padding:7px;box-shadow:0 2px 10px rgba(0,0,0,.25);}
 #logo img{width:100%;height:100%;object-fit:contain;display:block;}
 
 .sep{width:1px;height:58px;background:var(--borde);flex:0 0 auto;}
@@ -78,9 +84,9 @@ body::after{
 #bolsa .et{font-size:15px;font-weight:700;letter-spacing:.17em;color:var(--suave);text-transform:uppercase;}
 #bolsa .precio{font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;}
 #bolsa .var{font-size:21px;font-weight:700;font-variant-numeric:tabular-nums;padding:3px 11px;border-radius:9px;}
-#bolsa .sube{color:#3C8C06;background:rgba(102,181,18,.14);}
-#bolsa .baja{color:var(--rojo);background:rgba(208,2,27,.10);}
-#bolsa .plano{color:var(--suave);background:rgba(16,56,79,.07);}
+#bolsa .sube{color:var(--verde);background:rgba(139,217,58,.16);}
+#bolsa .baja{color:var(--rojo);background:rgba(255,107,125,.16);}
+#bolsa .plano{color:var(--suave);background:rgba(255,255,255,.09);}
 
 /* Reloj */
 #reloj{display:flex;align-items:baseline;gap:7px;}
@@ -91,7 +97,7 @@ body::after{
 #hueco{
   position:absolute;left:40px;top:196px;width:1466px;height:824px;
   border-radius:16px;
-  background:rgba(255,255,255,.5);
+  background:rgba(255,255,255,.05);
   border:1px solid var(--borde);
   box-shadow:var(--sombra);
   z-index:1;
@@ -150,24 +156,26 @@ body::after{
 .infocon{
   display:flex;align-items:center;gap:9px;
   padding:8px 11px;border-radius:10px;
-  background:rgba(16,56,79,.05);margin-bottom:11px;
+  background:rgba(255,255,255,.07);margin-bottom:11px;
 }
 .infocon .luz{
   width:13px;height:13px;border-radius:50%;flex:0 0 auto;
-  background:var(--suave);box-shadow:0 0 0 3px rgba(16,56,79,.07);
+  background:var(--suave);box-shadow:0 0 0 3px rgba(255,255,255,.08);
 }
 .infocon .valor{
   margin-left:auto;font-size:19px;font-weight:700;letter-spacing:.05em;
   text-transform:uppercase;
 }
-.nivel-verde   .luz{background:#49A010;box-shadow:0 0 0 3px rgba(73,160,16,.20);}
-.nivel-verde   .valor{color:#3C8C06;}
-.nivel-amarillo .luz{background:#E8B10A;box-shadow:0 0 0 3px rgba(232,177,10,.22);}
-.nivel-amarillo .valor{color:#A8790A;}
-.nivel-naranja .luz{background:#E8700A;box-shadow:0 0 0 3px rgba(232,112,10,.22);}
-.nivel-naranja .valor{color:#C25A05;}
-.nivel-rojo    .luz{background:#D0021B;box-shadow:0 0 0 3px rgba(208,2,27,.22);}
-.nivel-rojo    .valor{color:var(--rojo);}
+/* Semaforo INFOCON: sobre fondo oscuro la luz se ilumina mas y el halo
+   se amplia, para que se lea de un vistazo desde lejos. */
+.nivel-verde    .luz{background:#8BD93A;box-shadow:0 0 0 4px rgba(139,217,58,.25);}
+.nivel-verde    .valor{color:#8BD93A;}
+.nivel-amarillo .luz{background:#FFC53D;box-shadow:0 0 0 4px rgba(255,197,61,.25);}
+.nivel-amarillo .valor{color:#FFC53D;}
+.nivel-naranja  .luz{background:#FF9A3D;box-shadow:0 0 0 4px rgba(255,154,61,.25);}
+.nivel-naranja  .valor{color:#FF9A3D;}
+.nivel-rojo     .luz{background:#FF6B7D;box-shadow:0 0 0 4px rgba(255,107,125,.28);}
+.nivel-rojo     .valor{color:var(--rojo);}
 
 /* Cifra principal */
 .ciber-cifra{margin-bottom:12px;}
@@ -358,7 +366,9 @@ function pintarReloj(){
    ICONOS DEL TIEMPO  (SVG propio: nada de emojis, que en Raspberry
    Pi pueden no estar instalados y saldrian como cuadrados)
    ================================================================== */
-var SOL="#F5A623", NUBE="#9FB6C4", NUBE2="#7C97A8", AGUA="#0091DF", NIEVE="#BBD9EC", RAYO="#F5C542";
+// Tonos aclarados para el tema oscuro: el azul #0091DF de la lluvia
+// y el gris de las nubes se perdian sobre el fondo azul marino.
+var SOL="#FFB63D", NUBE="#B9CEDC", NUBE2="#93AEBF", AGUA="#45B8F0", NIEVE="#D5EAF7", RAYO="#FFD54A";
 
 function svg(c){ return '<svg viewBox="0 0 64 64" width="100%" height="100%">'+c+'</svg>'; }
 var g_sol='<circle cx="32" cy="30" r="13" fill="'+SOL+'"/>'+
