@@ -1,12 +1,12 @@
 {
   "bayer": {
-    "precio": 56.28,
+    "precio": 55.5,
     "moneda": "EUR",
-    "variacion": 2.04,
-    "variacionPct": 3.76,
+    "variacion": 1.98,
+    "variacionPct": 3.65,
     "apertura": 55,
-    "momento": "2026-11-05T16:29:59Z",
-    "estado": "Continuous Trading",
+    "momento": "2026-11-05T20:54:05Z",
+    "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
   "bayerObsoleto": false,
@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-05",
-      "ataques": 7198774,
-      "origenes": 124449,
-      "objetivos": 481
+      "ataques": 10815413,
+      "origenes": 158775,
+      "objetivos": 494
     },
     "puertos": [
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 510388,
-        "origenes": 9883
-      },
-      {
-        "puerto": 23,
-        "nombre": "Telnet",
-        "registros": 259949,
-        "origenes": 9070
-      },
-      {
-        "puerto": 161,
-        "nombre": "SNMP",
-        "registros": 237241,
-        "origenes": 972
+        "registros": 962097,
+        "origenes": 17106
       },
       {
         "puerto": 443,
         "nombre": "HTTPS",
-        "registros": 183044,
-        "origenes": 9761
+        "registros": 771455,
+        "origenes": 20812
+      },
+      {
+        "puerto": 161,
+        "nombre": "SNMP",
+        "registros": 500605,
+        "origenes": 1731
+      },
+      {
+        "puerto": 23,
+        "nombre": "Telnet",
+        "registros": 481587,
+        "origenes": 15569
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,11 +49,11 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "05/11/2026 17:00",
+    "generado": "05/11/2026 23:00",
     "total": 32,
     "goa": {
       "min": 1.729,
-      "media": 1.848,
+      "media": 1.847,
       "max": 2.035,
       "rotulo": "LAVAPLUS",
       "direccion": "CARRERA DE AJALVIR, 3",
@@ -61,7 +61,7 @@
     },
     "g95": {
       "min": 1.549,
-      "media": 1.649,
+      "media": 1.647,
       "max": 1.799,
       "rotulo": "LAVAPLUS",
       "direccion": "CARRERA DE AJALVIR, 3",
@@ -78,5 +78,5 @@
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-05T16:50:01.926Z"
+  "actualizado": "2026-11-05T22:35:40.078Z"
 }
