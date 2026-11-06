@@ -1,11 +1,11 @@
 {
   "bayer": {
-    "precio": 55.2,
+    "precio": 55.14,
     "moneda": "EUR",
     "variacion": -0.64,
     "variacionPct": -1.14,
     "apertura": 55,
-    "momento": "2026-11-06T17:20:46Z",
+    "momento": "2026-11-06T20:54:49Z",
     "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
@@ -14,9 +14,9 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-06",
-      "ataques": 8461857,
-      "origenes": 123219,
-      "objetivos": 471
+      "ataques": 10674961,
+      "origenes": 140664,
+      "objetivos": 476
     },
     "puertos": [
       {
@@ -77,6 +77,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": false,
-  "actualizado": "2026-11-06T17:40:24.871Z"
+  "carburantesObsoleto": true,
+  "actualizado": "2026-11-06T22:48:38.120Z"
 }
