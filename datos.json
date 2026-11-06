@@ -1,12 +1,12 @@
 {
   "bayer": {
-    "precio": 54.36,
+    "precio": 55.2,
     "moneda": "EUR",
-    "variacion": -1.86,
-    "variacionPct": -3.31,
+    "variacion": -0.64,
+    "variacionPct": -1.14,
     "apertura": 55,
-    "momento": "2026-11-06T10:13:54Z",
-    "estado": "Continuous Trading",
+    "momento": "2026-11-06T17:20:46Z",
+    "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
   "bayerObsoleto": false,
@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-06",
-      "ataques": 4230122,
-      "origenes": 80231,
-      "objetivos": 428
+      "ataques": 8461857,
+      "origenes": 123219,
+      "objetivos": 471
     },
     "puertos": [
       {
         "puerto": 161,
         "nombre": "SNMP",
-        "registros": 332942,
-        "origenes": 842
-      },
-      {
-        "puerto": 22,
-        "nombre": "SSH",
-        "registros": 242925,
-        "origenes": 7729
+        "registros": 667564,
+        "origenes": 1661
       },
       {
         "puerto": 443,
         "nombre": "HTTPS",
-        "registros": 215303,
-        "origenes": 8641
+        "registros": 568654,
+        "origenes": 12571
       },
       {
-        "puerto": 8080,
-        "nombre": "HTTP alt",
-        "registros": 192745,
-        "origenes": 4991
+        "puerto": 22,
+        "nombre": "SSH",
+        "registros": 509335,
+        "origenes": 13284
+      },
+      {
+        "puerto": 23,
+        "nombre": "Telnet",
+        "registros": 353498,
+        "origenes": 12927
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,22 +49,22 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "06/11/2026 11:00",
+    "generado": "06/11/2026 18:00",
     "total": 32,
     "goa": {
       "min": 1.729,
-      "media": 1.844,
+      "media": 1.843,
       "max": 2.029,
-      "rotulo": "LAVAPLUS",
-      "direccion": "CARRERA DE AJALVIR, 3",
+      "rotulo": "GASEXPRESS",
+      "direccion": "CARRETERA DAGANZO KM. 3",
       "estaciones": 32
     },
     "g95": {
       "min": 1.549,
-      "media": 1.643,
-      "max": 1.789,
-      "rotulo": "LAVAPLUS",
-      "direccion": "CARRERA DE AJALVIR, 3",
+      "media": 1.642,
+      "max": 1.799,
+      "rotulo": "GASEXPRESS",
+      "direccion": "CARRETERA DAGANZO KM. 3",
       "estaciones": 32
     },
     "adblue": {
@@ -72,11 +72,11 @@
       "media": 0.994,
       "max": 1.42,
       "rotulo": "LAVAPLUS",
-      "direccion": "CARRERA DE AJALVIR, 3",
+      "direccion": "AVENIDA DE AJALVIR, 3",
       "estaciones": 7
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-06T10:29:00.449Z"
+  "actualizado": "2026-11-06T17:40:24.871Z"
 }
