@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-07",
-      "ataques": 6800700,
-      "origenes": 111729,
-      "objetivos": 488
+      "ataques": 8844385,
+      "origenes": 134310,
+      "objetivos": 490
     },
     "puertos": [
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 389093,
-        "origenes": 6841
+        "registros": 788432,
+        "origenes": 14947
       },
       {
         "puerto": 161,
         "nombre": "SNMP",
-        "registros": 204701,
-        "origenes": 917
+        "registros": 403942,
+        "origenes": 1533
+      },
+      {
+        "puerto": 443,
+        "nombre": "HTTPS",
+        "registros": 386985,
+        "origenes": 17807
       },
       {
         "puerto": 23,
         "nombre": "Telnet",
-        "registros": 150479,
-        "origenes": 7874
-      },
-      {
-        "puerto": 2222,
-        "nombre": "SSH alt",
-        "registros": 143109,
-        "origenes": 5651
+        "registros": 330548,
+        "origenes": 13729
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -77,6 +77,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": false,
-  "actualizado": "2026-11-07T15:45:23.081Z"
+  "carburantesObsoleto": true,
+  "actualizado": "2026-11-07T19:57:18.840Z"
 }
