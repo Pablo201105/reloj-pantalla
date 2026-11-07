@@ -13,48 +13,23 @@
   "ciber": {
     "infocon": "green",
     "hoy": {
-      "fecha": "2026-11-06",
-      "ataques": 10674961,
-      "origenes": 140664,
-      "objetivos": 476
+      "fecha": "2026-11-07",
+      "ataques": 3930,
+      "origenes": 1562,
+      "objetivos": 2
     },
-    "puertos": [
-      {
-        "puerto": 161,
-        "nombre": "SNMP",
-        "registros": 667564,
-        "origenes": 1661
-      },
-      {
-        "puerto": 443,
-        "nombre": "HTTPS",
-        "registros": 568654,
-        "origenes": 12571
-      },
-      {
-        "puerto": 22,
-        "nombre": "SSH",
-        "registros": 509335,
-        "origenes": 13284
-      },
-      {
-        "puerto": 23,
-        "nombre": "Telnet",
-        "registros": 353498,
-        "origenes": 12927
-      }
-    ],
+    "puertos": [],
     "fuente": "SANS Internet Storm Center"
   },
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "06/11/2026 18:00",
+    "generado": "07/11/2026 03:00",
     "total": 32,
     "goa": {
       "min": 1.729,
-      "media": 1.843,
-      "max": 2.029,
+      "media": 1.841,
+      "max": 2.019,
       "rotulo": "GASEXPRESS",
       "direccion": "CARRETERA DAGANZO KM. 3",
       "estaciones": 32
@@ -62,7 +37,7 @@
     "g95": {
       "min": 1.549,
       "media": 1.642,
-      "max": 1.799,
+      "max": 1.769,
       "rotulo": "GASEXPRESS",
       "direccion": "CARRETERA DAGANZO KM. 3",
       "estaciones": 32
@@ -77,6 +52,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": true,
-  "actualizado": "2026-11-06T22:48:38.120Z"
+  "carburantesObsoleto": false,
+  "actualizado": "2026-11-07T02:34:53.541Z"
 }
