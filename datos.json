@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-07",
-      "ataques": 2558748,
-      "origenes": 66585,
-      "objetivos": 410
+      "ataques": 6800700,
+      "origenes": 111729,
+      "objetivos": 488
     },
     "puertos": [
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 136895,
-        "origenes": 3609
+        "registros": 389093,
+        "origenes": 6841
       },
       {
         "puerto": 161,
         "nombre": "SNMP",
-        "registros": 107362,
-        "origenes": 510
-      },
-      {
-        "puerto": 443,
-        "nombre": "HTTPS",
-        "registros": 54215,
-        "origenes": 10457
+        "registros": 204701,
+        "origenes": 917
       },
       {
         "puerto": 23,
         "nombre": "Telnet",
-        "registros": 48762,
-        "origenes": 4088
+        "registros": 150479,
+        "origenes": 7874
+      },
+      {
+        "puerto": 2222,
+        "nombre": "SSH alt",
+        "registros": 143109,
+        "origenes": 5651
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,22 +49,22 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "07/11/2026 03:00",
+    "generado": "07/11/2026 16:00",
     "total": 32,
     "goa": {
-      "min": 1.729,
-      "media": 1.841,
+      "min": 1.719,
+      "media": 1.84,
       "max": 2.019,
-      "rotulo": "GASEXPRESS",
-      "direccion": "CARRETERA DAGANZO KM. 3",
+      "rotulo": "PETROPRIX",
+      "direccion": "CALLE ISAAC NEWTON, 155",
       "estaciones": 32
     },
     "g95": {
-      "min": 1.549,
-      "media": 1.642,
+      "min": 1.519,
+      "media": 1.636,
       "max": 1.769,
-      "rotulo": "GASEXPRESS",
-      "direccion": "CARRETERA DAGANZO KM. 3",
+      "rotulo": "PETROPRIX",
+      "direccion": "CALLE ISAAC NEWTON, 155",
       "estaciones": 32
     },
     "adblue": {
@@ -72,11 +72,11 @@
       "media": 0.994,
       "max": 1.42,
       "rotulo": "LAVAPLUS",
-      "direccion": "AVENIDA DE AJALVIR, 3",
+      "direccion": "AVENIDA AJALVIR, 3",
       "estaciones": 7
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": true,
-  "actualizado": "2026-11-07T09:14:15.589Z"
+  "carburantesObsoleto": false,
+  "actualizado": "2026-11-07T15:45:23.081Z"
 }
