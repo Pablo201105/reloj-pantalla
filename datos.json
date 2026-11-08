@@ -14,9 +14,9 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-08",
-      "ataques": 3942463,
-      "origenes": 78652,
-      "objetivos": 423
+      "ataques": 6862329,
+      "origenes": 108444,
+      "objetivos": 469
     },
     "puertos": [
       {
@@ -77,6 +77,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": false,
-  "actualizado": "2026-11-08T09:56:10.688Z"
+  "carburantesObsoleto": true,
+  "actualizado": "2026-11-08T16:33:10.265Z"
 }
