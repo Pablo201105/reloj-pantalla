@@ -13,56 +13,31 @@
   "ciber": {
     "infocon": "green",
     "hoy": {
-      "fecha": "2026-11-07",
-      "ataques": 10930892,
-      "origenes": 150912,
-      "objetivos": 494
+      "fecha": "2026-11-08",
+      "ataques": 4490,
+      "origenes": 1545,
+      "objetivos": 2
     },
-    "puertos": [
-      {
-        "puerto": 22,
-        "nombre": "SSH",
-        "registros": 788432,
-        "origenes": 14947
-      },
-      {
-        "puerto": 161,
-        "nombre": "SNMP",
-        "registros": 403942,
-        "origenes": 1533
-      },
-      {
-        "puerto": 443,
-        "nombre": "HTTPS",
-        "registros": 386985,
-        "origenes": 17807
-      },
-      {
-        "puerto": 23,
-        "nombre": "Telnet",
-        "registros": 330548,
-        "origenes": 13729
-      }
-    ],
+    "puertos": [],
     "fuente": "SANS Internet Storm Center"
   },
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "07/11/2026 16:00",
+    "generado": "08/11/2026 03:00",
     "total": 32,
     "goa": {
       "min": 1.719,
-      "media": 1.84,
-      "max": 2.019,
+      "media": 1.838,
+      "max": 2.014,
       "rotulo": "PETROPRIX",
       "direccion": "CALLE ISAAC NEWTON, 155",
       "estaciones": 32
     },
     "g95": {
       "min": 1.519,
-      "media": 1.636,
-      "max": 1.769,
+      "media": 1.634,
+      "max": 1.764,
       "rotulo": "PETROPRIX",
       "direccion": "CALLE ISAAC NEWTON, 155",
       "estaciones": 32
@@ -77,6 +52,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": true,
-  "actualizado": "2026-11-07T23:33:52.602Z"
+  "carburantesObsoleto": false,
+  "actualizado": "2026-11-08T02:41:54.732Z"
 }
