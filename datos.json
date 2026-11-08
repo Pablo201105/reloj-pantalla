@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-08",
-      "ataques": 6862329,
-      "origenes": 108444,
-      "objetivos": 469
+      "ataques": 8731129,
+      "origenes": 127504,
+      "objetivos": 473
     },
     "puertos": [
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 336225,
-        "origenes": 7863
+        "registros": 663686,
+        "origenes": 12706
       },
       {
         "puerto": 161,
         "nombre": "SNMP",
-        "registros": 222647,
-        "origenes": 541
-      },
-      {
-        "puerto": 23,
-        "nombre": "Telnet",
-        "registros": 168825,
-        "origenes": 8040
+        "registros": 428067,
+        "origenes": 1196
       },
       {
         "puerto": 443,
         "nombre": "HTTPS",
-        "registros": 151982,
-        "origenes": 8545
+        "registros": 379881,
+        "origenes": 13266
+      },
+      {
+        "puerto": 23,
+        "nombre": "Telnet",
+        "registros": 369386,
+        "origenes": 14105
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,22 +49,22 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "08/11/2026 10:00",
+    "generado": "08/11/2026 21:00",
     "total": 32,
     "goa": {
       "min": 1.719,
-      "media": 1.838,
-      "max": 2.014,
-      "rotulo": "BALLENOIL",
-      "direccion": "CARRETERA DAGANZO KM. 5",
+      "media": 1.839,
+      "max": 2.024,
+      "rotulo": "PETROPRIX",
+      "direccion": "CALLE ISAAC NEWTON, 155",
       "estaciones": 32
     },
     "g95": {
       "min": 1.519,
       "media": 1.635,
-      "max": 1.764,
-      "rotulo": "BALLENOIL",
-      "direccion": "CARRETERA DAGANZO KM. 5",
+      "max": 1.769,
+      "rotulo": "PETROPRIX",
+      "direccion": "CALLE ISAAC NEWTON, 155",
       "estaciones": 32
     },
     "adblue": {
@@ -77,6 +77,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": true,
-  "actualizado": "2026-11-08T16:33:10.265Z"
+  "carburantesObsoleto": false,
+  "actualizado": "2026-11-08T20:45:14.212Z"
 }
