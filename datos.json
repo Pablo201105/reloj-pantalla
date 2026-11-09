@@ -1,11 +1,11 @@
 {
   "bayer": {
-    "precio": 55.14,
+    "precio": 56.62,
     "moneda": "EUR",
-    "variacion": -0.64,
-    "variacionPct": -1.14,
-    "apertura": 55,
-    "momento": "2026-11-06T20:54:49Z",
+    "variacion": 1.04,
+    "variacionPct": 1.87,
+    "apertura": 55.1,
+    "momento": "2026-11-09T17:06:25Z",
     "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-09",
-      "ataques": 1608941,
-      "origenes": 54167,
-      "objetivos": 376
+      "ataques": 8353817,
+      "origenes": 129648,
+      "objetivos": 508
     },
     "puertos": [
       {
         "puerto": 23,
         "nombre": "Telnet",
-        "registros": 156421,
-        "origenes": 5530
+        "registros": 846553,
+        "origenes": 14762
       },
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 120264,
-        "origenes": 4013
+        "registros": 625170,
+        "origenes": 13696
+      },
+      {
+        "puerto": 443,
+        "nombre": "HTTPS",
+        "registros": 547509,
+        "origenes": 11974
       },
       {
         "puerto": 161,
         "nombre": "SNMP",
-        "registros": 80126,
-        "origenes": 311
-      },
-      {
-        "puerto": 3389,
-        "nombre": "RDP",
-        "registros": 55839,
-        "origenes": 545
+        "registros": 331075,
+        "origenes": 1398
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,22 +49,22 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "09/11/2026 08:00",
+    "generado": "09/11/2026 18:00",
     "total": 32,
     "goa": {
       "min": 1.719,
-      "media": 1.838,
+      "media": 1.837,
       "max": 2.014,
-      "rotulo": "PETROPRIX",
-      "direccion": "CALLE ISAAC NEWTON, 155",
+      "rotulo": "GASEXPRESS",
+      "direccion": "CARRETERA DAGANZO KM. 3",
       "estaciones": 32
     },
     "g95": {
       "min": 1.519,
-      "media": 1.634,
-      "max": 1.764,
-      "rotulo": "PETROPRIX",
-      "direccion": "CALLE ISAAC NEWTON, 155",
+      "media": 1.632,
+      "max": 1.774,
+      "rotulo": "GASEXPRESS",
+      "direccion": "CARRETERA DAGANZO KM. 3",
       "estaciones": 32
     },
     "adblue": {
@@ -78,5 +78,5 @@
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-09T07:10:51.166Z"
+  "actualizado": "2026-11-09T17:39:03.553Z"
 }
