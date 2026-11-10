@@ -1,12 +1,12 @@
 {
   "bayer": {
-    "precio": 56.98,
+    "precio": 57.16,
     "moneda": "EUR",
-    "variacion": 0.36,
-    "variacionPct": 0.64,
+    "variacion": 0.46,
+    "variacionPct": 0.81,
     "apertura": 57.1,
-    "momento": "2026-11-10T16:13:36Z",
-    "estado": "Continuous Trading",
+    "momento": "2026-11-10T20:34:03Z",
+    "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
   "bayerObsoleto": false,
@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-10",
-      "ataques": 6834617,
-      "origenes": 118314,
-      "objetivos": 530
+      "ataques": 9830872,
+      "origenes": 162836,
+      "objetivos": 571
     },
     "puertos": [
       {
-        "puerto": 22,
-        "nombre": "SSH",
-        "registros": 334395,
-        "origenes": 6922
-      },
-      {
         "puerto": 443,
         "nombre": "HTTPS",
-        "registros": 240546,
-        "origenes": 8822
+        "registros": 977075,
+        "origenes": 13516
+      },
+      {
+        "puerto": 22,
+        "nombre": "SSH",
+        "registros": 708737,
+        "origenes": 11868
       },
       {
         "puerto": 23,
         "nombre": "Telnet",
-        "registros": 142953,
-        "origenes": 7125
+        "registros": 282573,
+        "origenes": 12763
       },
       {
-        "puerto": 80,
-        "nombre": "HTTP",
-        "registros": 128683,
-        "origenes": 4856
+        "puerto": 3389,
+        "nombre": "RDP",
+        "registros": 263111,
+        "origenes": 2229
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,11 +49,11 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "10/11/2026 17:00",
+    "generado": "10/11/2026 22:00",
     "total": 32,
     "goa": {
       "min": 1.689,
-      "media": 1.837,
+      "media": 1.835,
       "max": 2.014,
       "rotulo": "LAVAPLUS",
       "direccion": "AVENIDA AJALVIR, 3",
@@ -62,7 +62,7 @@
     "g95": {
       "min": 1.449,
       "media": 1.628,
-      "max": 1.769,
+      "max": 1.764,
       "rotulo": "LAVAPLUS",
       "direccion": "AVENIDA AJALVIR, 3",
       "estaciones": 32
@@ -78,5 +78,5 @@
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-10T16:28:53.830Z"
+  "actualizado": "2026-11-10T21:56:40.560Z"
 }
