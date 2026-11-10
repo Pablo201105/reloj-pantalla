@@ -1,11 +1,11 @@
 {
   "bayer": {
-    "precio": 56.86,
+    "precio": 57.38,
     "moneda": "EUR",
-    "variacion": 1.04,
-    "variacionPct": 1.87,
+    "variacion": 0.76,
+    "variacionPct": 1.34,
     "apertura": 55.1,
-    "momento": "2026-11-09T20:32:05Z",
+    "momento": "2026-11-10T07:37:53Z",
     "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
@@ -13,30 +13,55 @@
   "ciber": {
     "infocon": "green",
     "hoy": {
-      "fecha": "2026-11-09",
-      "ataques": 11331911,
-      "origenes": 158805,
-      "objetivos": 531
+      "fecha": "2026-11-10",
+      "ataques": 2528140,
+      "origenes": 64703,
+      "objetivos": 420
     },
-    "puertos": [],
+    "puertos": [
+      {
+        "puerto": 22,
+        "nombre": "SSH",
+        "registros": 131766,
+        "origenes": 3840
+      },
+      {
+        "puerto": 443,
+        "nombre": "HTTPS",
+        "registros": 110332,
+        "origenes": 4215
+      },
+      {
+        "puerto": 80,
+        "nombre": "HTTP",
+        "registros": 92724,
+        "origenes": 2760
+      },
+      {
+        "puerto": 23,
+        "nombre": "Telnet",
+        "registros": 56141,
+        "origenes": 3658
+      }
+    ],
     "fuente": "SANS Internet Storm Center"
   },
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "10/11/2026 01:00",
+    "generado": "10/11/2026 09:00",
     "total": 32,
     "goa": {
       "min": 1.719,
-      "media": 1.838,
-      "max": 2.014,
+      "media": 1.837,
+      "max": 2.024,
       "rotulo": "GASEXPRESS",
       "direccion": "CARRETERA DAGANZO KM. 3",
       "estaciones": 32
     },
     "g95": {
       "min": 1.519,
-      "media": 1.632,
+      "media": 1.631,
       "max": 1.764,
       "rotulo": "GASEXPRESS",
       "direccion": "CARRETERA DAGANZO KM. 3",
@@ -53,5 +78,5 @@
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-10T00:52:10.183Z"
+  "actualizado": "2026-11-10T08:03:24.250Z"
 }
