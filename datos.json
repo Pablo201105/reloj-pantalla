@@ -1,12 +1,12 @@
 {
   "bayer": {
-    "precio": 57.16,
+    "precio": 57.08,
     "moneda": "EUR",
-    "variacion": 0.46,
-    "variacionPct": 0.81,
-    "apertura": 57.1,
-    "momento": "2026-11-10T20:34:03Z",
-    "estado": "Retail Early/Late",
+    "variacion": 0,
+    "variacionPct": 0,
+    "apertura": 56.78,
+    "momento": "2026-11-11T08:42:18Z",
+    "estado": "Continuous Trading",
     "fuente": "Xetra"
   },
   "bayerObsoleto": false,
@@ -14,11 +14,36 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-11",
-      "ataques": 4435,
-      "origenes": 1506,
-      "objetivos": 1
+      "ataques": 2706142,
+      "origenes": 71294,
+      "objetivos": 417
     },
-    "puertos": [],
+    "puertos": [
+      {
+        "puerto": 22,
+        "nombre": "SSH",
+        "registros": 135914,
+        "origenes": 5127
+      },
+      {
+        "puerto": 8080,
+        "nombre": "HTTP alt",
+        "registros": 67017,
+        "origenes": 3561
+      },
+      {
+        "puerto": 23,
+        "nombre": "Telnet",
+        "registros": 57919,
+        "origenes": 4069
+      },
+      {
+        "puerto": 8000,
+        "nombre": "—",
+        "registros": 57064,
+        "origenes": 3267
+      }
+    ],
     "fuente": "SANS Internet Storm Center"
   },
   "ciberObsoleto": false,
@@ -52,6 +77,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": false,
-  "actualizado": "2026-11-11T01:46:34.602Z"
+  "carburantesObsoleto": true,
+  "actualizado": "2026-11-11T08:57:25.204Z"
 }
