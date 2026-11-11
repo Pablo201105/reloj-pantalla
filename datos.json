@@ -1,12 +1,12 @@
 {
   "bayer": {
-    "precio": 57.08,
+    "precio": 56.74,
     "moneda": "EUR",
-    "variacion": 0,
-    "variacionPct": 0,
+    "variacion": -0.32,
+    "variacionPct": -0.56,
     "apertura": 56.78,
-    "momento": "2026-11-11T08:42:18Z",
-    "estado": "Continuous Trading",
+    "momento": "2026-11-11T16:44:35Z",
+    "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
   "bayerObsoleto": false,
@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-11",
-      "ataques": 2706142,
-      "origenes": 71294,
-      "objetivos": 417
+      "ataques": 7268789,
+      "origenes": 131409,
+      "objetivos": 503
     },
     "puertos": [
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 135914,
-        "origenes": 5127
+        "registros": 343102,
+        "origenes": 8330
       },
       {
         "puerto": 8080,
         "nombre": "HTTP alt",
-        "registros": 67017,
-        "origenes": 3561
+        "registros": 153222,
+        "origenes": 5306
       },
       {
         "puerto": 23,
         "nombre": "Telnet",
-        "registros": 57919,
-        "origenes": 4069
+        "registros": 153041,
+        "origenes": 7507
       },
       {
-        "puerto": 8000,
-        "nombre": "—",
-        "registros": 57064,
-        "origenes": 3267
+        "puerto": 443,
+        "nombre": "HTTPS",
+        "registros": 134249,
+        "origenes": 8790
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,22 +49,22 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "11/11/2026 02:00",
+    "generado": "11/11/2026 18:00",
     "total": 32,
     "goa": {
-      "min": 1.689,
-      "media": 1.828,
+      "min": 1.599,
+      "media": 1.818,
       "max": 1.999,
-      "rotulo": "LAVAPLUS",
-      "direccion": "AVENIDA AJALVIR, 3",
+      "rotulo": "BALLENOIL",
+      "direccion": "CALLE VARSOVIA, 2",
       "estaciones": 32
     },
     "g95": {
-      "min": 1.449,
-      "media": 1.624,
-      "max": 1.759,
-      "rotulo": "LAVAPLUS",
-      "direccion": "AVENIDA AJALVIR, 3",
+      "min": 1.299,
+      "media": 1.606,
+      "max": 1.769,
+      "rotulo": "BALLENOIL",
+      "direccion": "CALLE VARSOVIA, 2",
       "estaciones": 32
     },
     "adblue": {
@@ -77,6 +77,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": true,
-  "actualizado": "2026-11-11T08:57:25.204Z"
+  "carburantesObsoleto": false,
+  "actualizado": "2026-11-11T17:00:39.067Z"
 }
