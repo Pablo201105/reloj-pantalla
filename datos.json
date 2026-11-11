@@ -1,11 +1,11 @@
 {
   "bayer": {
-    "precio": 56.74,
+    "precio": 56.86,
     "moneda": "EUR",
     "variacion": -0.32,
     "variacionPct": -0.56,
     "apertura": 56.78,
-    "momento": "2026-11-11T16:44:35Z",
+    "momento": "2026-11-11T20:33:14Z",
     "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-11",
-      "ataques": 7268789,
-      "origenes": 131409,
-      "objetivos": 503
+      "ataques": 12320711,
+      "origenes": 175850,
+      "objetivos": 537
     },
     "puertos": [
       {
-        "puerto": 22,
-        "nombre": "SSH",
-        "registros": 343102,
-        "origenes": 8330
+        "puerto": 443,
+        "nombre": "HTTPS",
+        "registros": 789757,
+        "origenes": 24165
       },
       {
-        "puerto": 8080,
-        "nombre": "HTTP alt",
-        "registros": 153222,
-        "origenes": 5306
+        "puerto": 22,
+        "nombre": "SSH",
+        "registros": 697703,
+        "origenes": 12932
       },
       {
         "puerto": 23,
         "nombre": "Telnet",
-        "registros": 153041,
-        "origenes": 7507
+        "registros": 278861,
+        "origenes": 12634
       },
       {
-        "puerto": 443,
-        "nombre": "HTTPS",
-        "registros": 134249,
-        "origenes": 8790
+        "puerto": 3389,
+        "nombre": "RDP",
+        "registros": 264414,
+        "origenes": 2666
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,7 +49,7 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "11/11/2026 18:00",
+    "generado": "12/11/2026 00:00",
     "total": 32,
     "goa": {
       "min": 1.599,
@@ -61,8 +61,8 @@
     },
     "g95": {
       "min": 1.299,
-      "media": 1.606,
-      "max": 1.769,
+      "media": 1.602,
+      "max": 1.759,
       "rotulo": "BALLENOIL",
       "direccion": "CALLE VARSOVIA, 2",
       "estaciones": 32
@@ -78,5 +78,5 @@
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-11T17:00:39.067Z"
+  "actualizado": "2026-11-11T23:30:22.538Z"
 }
