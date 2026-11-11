@@ -13,56 +13,31 @@
   "ciber": {
     "infocon": "green",
     "hoy": {
-      "fecha": "2026-11-10",
-      "ataques": 9830872,
-      "origenes": 162836,
-      "objetivos": 571
+      "fecha": "2026-11-11",
+      "ataques": 4435,
+      "origenes": 1506,
+      "objetivos": 1
     },
-    "puertos": [
-      {
-        "puerto": 443,
-        "nombre": "HTTPS",
-        "registros": 977075,
-        "origenes": 13516
-      },
-      {
-        "puerto": 22,
-        "nombre": "SSH",
-        "registros": 708737,
-        "origenes": 11868
-      },
-      {
-        "puerto": 23,
-        "nombre": "Telnet",
-        "registros": 282573,
-        "origenes": 12763
-      },
-      {
-        "puerto": 3389,
-        "nombre": "RDP",
-        "registros": 263111,
-        "origenes": 2229
-      }
-    ],
+    "puertos": [],
     "fuente": "SANS Internet Storm Center"
   },
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "10/11/2026 22:00",
+    "generado": "11/11/2026 02:00",
     "total": 32,
     "goa": {
       "min": 1.689,
-      "media": 1.835,
-      "max": 2.014,
+      "media": 1.828,
+      "max": 1.999,
       "rotulo": "LAVAPLUS",
       "direccion": "AVENIDA AJALVIR, 3",
       "estaciones": 32
     },
     "g95": {
       "min": 1.449,
-      "media": 1.628,
-      "max": 1.764,
+      "media": 1.624,
+      "max": 1.759,
       "rotulo": "LAVAPLUS",
       "direccion": "AVENIDA AJALVIR, 3",
       "estaciones": 32
@@ -78,5 +53,5 @@
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-10T21:56:40.560Z"
+  "actualizado": "2026-11-11T01:46:34.602Z"
 }
