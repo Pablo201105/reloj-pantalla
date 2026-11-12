@@ -13,35 +13,35 @@
   "ciber": {
     "infocon": "green",
     "hoy": {
-      "fecha": "2026-11-11",
-      "ataques": 12320711,
-      "origenes": 175850,
-      "objetivos": 537
+      "fecha": "2026-11-12",
+      "ataques": 744170,
+      "origenes": 35948,
+      "objetivos": 329
     },
     "puertos": [
       {
-        "puerto": 443,
-        "nombre": "HTTPS",
-        "registros": 789757,
-        "origenes": 24165
+        "puerto": 8080,
+        "nombre": "HTTP alt",
+        "registros": 73776,
+        "origenes": 4274
+      },
+      {
+        "puerto": 8000,
+        "nombre": "—",
+        "registros": 72698,
+        "origenes": 3700
       },
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 697703,
-        "origenes": 12932
+        "registros": 57464,
+        "origenes": 4507
       },
       {
-        "puerto": 23,
-        "nombre": "Telnet",
-        "registros": 278861,
-        "origenes": 12634
-      },
-      {
-        "puerto": 3389,
-        "nombre": "RDP",
-        "registros": 264414,
-        "origenes": 2666
+        "puerto": 80,
+        "nombre": "HTTP",
+        "registros": 34605,
+        "origenes": 3913
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,22 +49,22 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "12/11/2026 00:00",
+    "generado": "12/11/2026 05:00",
     "total": 32,
     "goa": {
       "min": 1.599,
       "media": 1.818,
       "max": 1.999,
-      "rotulo": "BALLENOIL",
-      "direccion": "CALLE VARSOVIA, 2",
+      "rotulo": "ALCAMPO",
+      "direccion": "C.C. LA DEHESA, AUTOVIA MADRID-BARCELONA km 34,0",
       "estaciones": 32
     },
     "g95": {
       "min": 1.299,
-      "media": 1.602,
-      "max": 1.759,
-      "rotulo": "BALLENOIL",
-      "direccion": "CALLE VARSOVIA, 2",
+      "media": 1.603,
+      "max": 1.739,
+      "rotulo": "ALCAMPO",
+      "direccion": "C.C. LA DEHESA, AUTOVIA MADRID-BARCELONA km 34,0",
       "estaciones": 32
     },
     "adblue": {
@@ -78,5 +78,5 @@
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-11T23:30:22.538Z"
+  "actualizado": "2026-11-12T04:12:38.845Z"
 }
