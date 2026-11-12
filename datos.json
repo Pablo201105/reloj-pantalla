@@ -1,12 +1,12 @@
 {
   "bayer": {
-    "precio": 56.86,
+    "precio": 57.4,
     "moneda": "EUR",
-    "variacion": -0.32,
-    "variacionPct": -0.56,
-    "apertura": 56.78,
-    "momento": "2026-11-11T20:33:14Z",
-    "estado": "Retail Early/Late",
+    "variacion": 0.64,
+    "variacionPct": 1.13,
+    "apertura": 57.6,
+    "momento": "2026-11-12T12:39:27Z",
+    "estado": "Continuous Trading",
     "fuente": "Xetra"
   },
   "bayerObsoleto": false,
@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-12",
-      "ataques": 744170,
-      "origenes": 35948,
-      "objetivos": 329
+      "ataques": 5975225,
+      "origenes": 101347,
+      "objetivos": 534
     },
     "puertos": [
       {
-        "puerto": 8080,
-        "nombre": "HTTP alt",
-        "registros": 73776,
-        "origenes": 4274
-      },
-      {
         "puerto": 8000,
         "nombre": "—",
-        "registros": 72698,
-        "origenes": 3700
+        "registros": 405391,
+        "origenes": 5840
+      },
+      {
+        "puerto": 8080,
+        "nombre": "HTTP alt",
+        "registros": 394981,
+        "origenes": 6900
       },
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 57464,
-        "origenes": 4507
+        "registros": 385267,
+        "origenes": 9392
       },
       {
         "puerto": 80,
         "nombre": "HTTP",
-        "registros": 34605,
-        "origenes": 3913
+        "registros": 141971,
+        "origenes": 8811
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -77,6 +77,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": false,
-  "actualizado": "2026-11-12T04:12:38.845Z"
+  "carburantesObsoleto": true,
+  "actualizado": "2026-11-12T12:55:49.482Z"
 }
