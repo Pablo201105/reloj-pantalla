@@ -1,12 +1,12 @@
 {
   "bayer": {
-    "precio": 57.4,
+    "precio": 56.56,
     "moneda": "EUR",
-    "variacion": 0.64,
-    "variacionPct": 1.13,
+    "variacion": -0.2,
+    "variacionPct": -0.35,
     "apertura": 57.6,
-    "momento": "2026-11-12T12:39:27Z",
-    "estado": "Continuous Trading",
+    "momento": "2026-11-12T20:08:48Z",
+    "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
   "bayerObsoleto": false,
@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-12",
-      "ataques": 5975225,
-      "origenes": 101347,
-      "objetivos": 534
+      "ataques": 10925881,
+      "origenes": 154532,
+      "objetivos": 578
     },
     "puertos": [
       {
+        "puerto": 22,
+        "nombre": "SSH",
+        "registros": 793194,
+        "origenes": 19284
+      },
+      {
         "puerto": 8000,
         "nombre": "—",
-        "registros": 405391,
-        "origenes": 5840
+        "registros": 661128,
+        "origenes": 14047
       },
       {
         "puerto": 8080,
         "nombre": "HTTP alt",
-        "registros": 394981,
-        "origenes": 6900
-      },
-      {
-        "puerto": 22,
-        "nombre": "SSH",
-        "registros": 385267,
-        "origenes": 9392
+        "registros": 657460,
+        "origenes": 15402
       },
       {
         "puerto": 80,
         "nombre": "HTTP",
-        "registros": 141971,
-        "origenes": 8811
+        "registros": 449793,
+        "origenes": 16647
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,11 +49,11 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "12/11/2026 05:00",
+    "generado": "12/11/2026 21:00",
     "total": 32,
     "goa": {
       "min": 1.599,
-      "media": 1.818,
+      "media": 1.808,
       "max": 1.999,
       "rotulo": "ALCAMPO",
       "direccion": "C.C. LA DEHESA, AUTOVIA MADRID-BARCELONA km 34,0",
@@ -61,7 +61,7 @@
     },
     "g95": {
       "min": 1.299,
-      "media": 1.603,
+      "media": 1.598,
       "max": 1.739,
       "rotulo": "ALCAMPO",
       "direccion": "C.C. LA DEHESA, AUTOVIA MADRID-BARCELONA km 34,0",
@@ -77,6 +77,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": true,
-  "actualizado": "2026-11-12T12:55:49.482Z"
+  "carburantesObsoleto": false,
+  "actualizado": "2026-11-12T20:40:46.709Z"
 }
