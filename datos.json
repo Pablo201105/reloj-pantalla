@@ -1,12 +1,12 @@
 {
   "bayer": {
-    "precio": 56.52,
+    "precio": 56.68,
     "moneda": "EUR",
     "variacion": -0.04,
     "variacionPct": -0.07,
     "apertura": 56.52,
-    "momento": "2026-11-13T16:36:18Z",
-    "estado": "Continuous Trading",
+    "momento": "2026-11-13T19:38:19Z",
+    "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
   "bayerObsoleto": false,
@@ -14,34 +14,34 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-13",
-      "ataques": 7786643,
-      "origenes": 122504,
-      "objetivos": 530
+      "ataques": 10647214,
+      "origenes": 155855,
+      "objetivos": 551
     },
     "puertos": [
       {
         "puerto": 22,
         "nombre": "SSH",
-        "registros": 387958,
-        "origenes": 12130
+        "registros": 859327,
+        "origenes": 19161
       },
       {
         "puerto": 8080,
         "nombre": "HTTP alt",
-        "registros": 343825,
-        "origenes": 7615
+        "registros": 571328,
+        "origenes": 12460
       },
       {
         "puerto": 8000,
         "nombre": "—",
-        "registros": 316506,
-        "origenes": 6664
+        "registros": 517875,
+        "origenes": 10968
       },
       {
         "puerto": 23,
         "nombre": "Telnet",
-        "registros": 179211,
-        "origenes": 7389
+        "registros": 430836,
+        "origenes": 14032
       }
     ],
     "fuente": "SANS Internet Storm Center"
@@ -49,11 +49,11 @@
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "13/11/2026 18:00",
+    "generado": "13/11/2026 23:00",
     "total": 32,
     "goa": {
       "min": 1.629,
-      "media": 1.799,
+      "media": 1.798,
       "max": 1.985,
       "rotulo": "ALCAMPO",
       "direccion": "C.C. LA DEHESA, AUTOVIA MADRID-BARCELONA km 34,0",
@@ -61,8 +61,8 @@
     },
     "g95": {
       "min": 1.299,
-      "media": 1.577,
-      "max": 1.739,
+      "media": 1.574,
+      "max": 1.729,
       "rotulo": "ALCAMPO",
       "direccion": "C.C. LA DEHESA, AUTOVIA MADRID-BARCELONA km 34,0",
       "estaciones": 32
@@ -78,5 +78,5 @@
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-13T17:16:11.646Z"
+  "actualizado": "2026-11-13T22:42:47.108Z"
 }
