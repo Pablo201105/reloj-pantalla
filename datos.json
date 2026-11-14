@@ -14,17 +14,42 @@
     "infocon": "green",
     "hoy": {
       "fecha": "2026-11-14",
-      "ataques": 3710,
-      "origenes": 1575,
-      "objetivos": 3
+      "ataques": 3424325,
+      "origenes": 73322,
+      "objetivos": 431
     },
-    "puertos": [],
+    "puertos": [
+      {
+        "puerto": 22,
+        "nombre": "SSH",
+        "registros": 195959,
+        "origenes": 8017
+      },
+      {
+        "puerto": 8080,
+        "nombre": "HTTP alt",
+        "registros": 172198,
+        "origenes": 4484
+      },
+      {
+        "puerto": 8000,
+        "nombre": "—",
+        "registros": 138147,
+        "origenes": 4133
+      },
+      {
+        "puerto": 443,
+        "nombre": "HTTPS",
+        "registros": 92025,
+        "origenes": 7149
+      }
+    ],
     "fuente": "SANS Internet Storm Center"
   },
   "ciberObsoleto": false,
   "carburantes": {
     "municipio": "Alcalá de Henares",
-    "generado": "14/11/2026 03:00",
+    "generado": "14/11/2026 10:00",
     "total": 32,
     "goa": {
       "min": 1.629,
@@ -36,7 +61,7 @@
     },
     "g95": {
       "min": 1.299,
-      "media": 1.568,
+      "media": 1.569,
       "max": 1.709,
       "rotulo": "ALCAMPO",
       "direccion": "C.C. LA DEHESA, AUTOVIA MADRID-BARCELONA km 34,0",
@@ -53,5 +78,5 @@
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
   "carburantesObsoleto": false,
-  "actualizado": "2026-11-14T02:56:12.664Z"
+  "actualizado": "2026-11-14T09:56:40.291Z"
 }
