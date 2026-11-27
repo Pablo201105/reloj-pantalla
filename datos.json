@@ -1,12 +1,12 @@
 {
   "bayer": {
-    "precio": 53.08,
+    "precio": 52.9,
     "moneda": "EUR",
-    "variacion": 2.4,
-    "variacionPct": 4.74,
+    "variacion": 2.14,
+    "variacionPct": 4.22,
     "apertura": 51.4,
-    "momento": "2026-11-26T15:31:03Z",
-    "estado": "Continuous Trading",
+    "momento": "2026-11-26T20:03:22Z",
+    "estado": "Retail Early/Late",
     "fuente": "Xetra"
   },
   "bayerObsoleto": false,
@@ -77,6 +77,6 @@
     },
     "fuente": "Geoportal de Gasolineras (MITECO)"
   },
-  "carburantesObsoleto": false,
-  "actualizado": "2026-11-26T15:46:29.666Z"
+  "carburantesObsoleto": true,
+  "actualizado": "2026-11-27T00:21:25.269Z"
 }
